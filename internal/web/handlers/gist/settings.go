@@ -1,10 +1,10 @@
 package gist
 
 import (
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/i18n"
-	"github.com/thomiceli/opengist/internal/validator"
-	"github.com/thomiceli/opengist/internal/web/context"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/i18n"
+	"github.com/devemmm/codes/internal/validator"
+	"github.com/devemmm/codes/internal/web/context"
 )
 
 // GistSettings renders the per-gist settings page (visibility, archive, delete).

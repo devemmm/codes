@@ -31,7 +31,7 @@ db-uri: postgres://postgres:passwd@/opengist_db?socket=/var/run/postgresql
 ```yml
 services:
   opengist:
-    image: ghcr.io/thomiceli/opengist:1
+    image: ghcr.io/devemmm/codes:latest
     container_name: opengist
     restart: unless-stopped
     depends_on:

@@ -1,11 +1,11 @@
 # Use OAuth providers
 
-Opengist can be configured to use OAuth to authenticate users, with GitHub, Gitea, or OpenID Connect.
+Codes can be configured to use OAuth to authenticate users, with GitHub, Gitea, or OpenID Connect.
 
 ## GitHub
 
 * Add a new OAuth app in your [GitHub account settings](https://github.com/settings/applications/new)
-* Set 'Authorization callback URL' to `http://opengist.url/oauth/github/callback`
+* Set 'Authorization callback URL' to `https://codes.example.com/oauth/github/callback`
 * Copy the 'Client ID' and 'Client Secret' and add them to the [configuration](cheat-sheet.md) :
   ```yaml
   github.client-key: <key>
@@ -20,7 +20,7 @@ Opengist can be configured to use OAuth to authenticate users, with GitHub, Gite
 ## GitLab
 
 * Add a new OAuth app in Application settings from the [GitLab instance](https://gitlab.com/-/user_settings/applications)
-* Set 'Redirect URI' to `http://opengist.url/oauth/gitlab/callback`
+* Set 'Redirect URI' to `https://codes.example.com/oauth/gitlab/callback`
 * Copy the 'Client ID' and 'Client Secret' and add them to the [configuration](cheat-sheet.md) :
   ```yaml
   gitlab.client-key: <key>
@@ -40,7 +40,7 @@ Opengist can be configured to use OAuth to authenticate users, with GitHub, Gite
 ## Gitea
 
 * Add a new OAuth app in Application settings from the [Gitea instance](https://gitea.com/user/settings/applications)
-* Set 'Redirect URI' to `http://opengist.url/oauth/gitea/callback`
+* Set 'Redirect URI' to `https://codes.example.com/oauth/gitea/callback`
 * Copy the 'Client ID' and 'Client Secret' and add them to the [configuration](cheat-sheet.md) :
   ```yaml
   gitea.client-key: <key>
@@ -60,7 +60,7 @@ Opengist can be configured to use OAuth to authenticate users, with GitHub, Gite
 ## OpenID Connect
 
 * Add a new OAuth app in Application settings of your OIDC provider
-* Set 'Redirect URI' to `http://opengist.url/oauth/openid-connect/callback`
+* Set 'Redirect URI' to `https://codes.example.com/oauth/openid-connect/callback`
 * Copy the 'Client ID', 'Client Secret', and the discovery endpoint, and add them to the [configuration](cheat-sheet.md) :
   ```yaml
   oidc.provider-name: <provider-name>
@@ -79,7 +79,7 @@ Opengist can be configured to use OAuth to authenticate users, with GitHub, Gite
 
 ### OIDC Admin Group
 
-OpenGist supports automatic admin privilege assignment based on OIDC group claims. To configure this feature:
+Codes supports automatic admin privilege assignment based on OIDC group claims. To configure this feature:
 ```yaml
 oidc.group-claim-name: groups        # Name of the claim containing the groups
 oidc.admin-group: admin-group-name   # Name of the group that should receive admin rights
@@ -91,4 +91,4 @@ OG_OIDC_ADMIN_GROUP=admin-group-name
 
 The `group-claim-name` must match the name of the claim in your JWT token that contains the groups.
 
-Users who are members of the configured `admin-group` will automatically receive admin privileges in OpenGist. These privileges are synchronized on every login.
+Users who are members of the configured `admin-group` will automatically receive admin privileges in Codes. These privileges are synchronized on every login.

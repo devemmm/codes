@@ -1,8 +1,8 @@
 package v1
 
 import (
-	"github.com/thomiceli/opengist/internal/web/context"
-	"github.com/thomiceli/opengist/internal/web/handlers/api/v1/types"
+	"github.com/devemmm/codes/internal/web/context"
+	"github.com/devemmm/codes/internal/web/handlers/api/v1/types"
 )
 
 // ListCommits handles GET /api/gists/:uuid/commits.

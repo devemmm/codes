@@ -3,7 +3,7 @@ package git
 import (
 	"bufio"
 	"github.com/stretchr/testify/require"
-	"github.com/thomiceli/opengist/internal/config"
+	"github.com/devemmm/codes/internal/config"
 	"os"
 	"os/exec"
 	"path"

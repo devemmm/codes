@@ -1,9 +1,9 @@
 package admin
 
 import (
-	"github.com/thomiceli/opengist/internal/actions"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/web/context"
+	"github.com/devemmm/codes/internal/actions"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/web/context"
 )
 
 // actionView is the template model for a single row on the admin actions page.

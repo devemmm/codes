@@ -9,13 +9,13 @@ Add these labels to your `docker-compose.yml` file:
 
 ```yml
 labels:
-  - traefik.http.routers.opengist.rule=Host(`opengist.example.com`) # Change to your subdomain
-  # Uncomment the line below if you run Opengist in a subdirectory
-  # - traefik.http.routers.app1.rule=PathPrefix(`/opengist{regex:$$|/.*}`) # Change opentist in the regex to yuor subdirectory name
-  - traefik.http.routers.opengist.entrypoints=websecure # Change to the name of your 443 port entrypoint
-  - traefik.http.routers.opengist.tls.certresolver=lets-encrypt # Change to certresolver's name
-  - traefik.http.routers.opengist.service=opengist
-  - traefik.http.services.opengist.loadBalancer.server.port=6157
+  - traefik.http.routers.codes.rule=Host(`codes.example.com`) # Change to your subdomain
+  # Uncomment the line below if you run Codes in a subdirectory
+  # - traefik.http.routers.codes.rule=PathPrefix(`/codes{regex:$$|/.*}`) # Use the path prefix for your chosen subdirectory
+  - traefik.http.routers.codes.entrypoints=websecure # Change to the name of your 443 port entrypoint
+  - traefik.http.routers.codes.tls.certresolver=lets-encrypt # Change to certresolver's name
+  - traefik.http.routers.codes.service=codes
+  - traefik.http.services.codes.loadBalancer.server.port=6157
 ```
 </details>
 <details>
@@ -28,17 +28,17 @@ labels:
 ```yml
 http:
   routers:
-    opengist:
+    codes:
       entrypoints: websecure
-      rule: Host(`opengist.example.com`) # Comment this line and uncomment the line below if using a subpath
-      # rule: PathPrefix(`/opengist{regex:$$|/.*}`) # Change opentist in the regex to yuor subdirectory name
+      rule: Host(`codes.example.com`) # Comment this line and uncomment the line below if using a subpath
+      # rule: PathPrefix(`/codes{regex:$$|/.*}`) # Use the path prefix for your chosen subdirectory
       # middlewares:
-      #   - opengist-fail2ban
-      service: opengist
+      #   - codes-fail2ban
+      service: codes
       tls:
         certresolver: lets-encrypt
   services:
-    opengist:
+    codes:
       loadbalancer:
         servers:
           - url: "http://<server-address>:6157"

@@ -4,9 +4,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/web/handlers/api/v1/types"
-	webtest "github.com/thomiceli/opengist/internal/web/test"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/web/handlers/api/v1/types"
+	webtest "github.com/devemmm/codes/internal/web/test"
 )
 
 // likedFixture stands up the env shared by the ListLikedGists tests:

@@ -109,9 +109,9 @@ settings.ssh-key-added-at: Přidáno
 settings.ssh-key-never-used: Nikdy nepoužito
 settings.ssh-key-last-used: Naposledy použito
 settings.create-password: Vytvořit heslo
-settings.create-password-help: Vytvořte si heslo pro přihlášení do Opengist pomocí HTTP
+settings.create-password-help: Vytvořte si heslo pro přihlášení do Codes pomocí HTTP
 settings.change-password: Změnit heslo
-settings.change-password-help: Změňte své heslo pro přihlášení do Opengist pomocí HTTP
+settings.change-password-help: Změňte své heslo pro přihlášení do Codes pomocí HTTP
 settings.password-label-title: Heslo
 
 auth.signup-disabled: Správce zakázal registraci

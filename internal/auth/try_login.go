@@ -5,9 +5,9 @@ import (
 	"strings"
 
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/auth/ldap"
-	passwordpkg "github.com/thomiceli/opengist/internal/auth/password"
-	"github.com/thomiceli/opengist/internal/db"
+	"github.com/devemmm/codes/internal/auth/ldap"
+	passwordpkg "github.com/devemmm/codes/internal/auth/password"
+	"github.com/devemmm/codes/internal/db"
 	"gorm.io/gorm"
 )
 

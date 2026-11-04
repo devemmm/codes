@@ -1,6 +1,6 @@
 # Metrics
 
-Opengist offers built-in support for Prometheus metrics to help you monitor the performance and usage of your instance. These metrics provide insights into application health, user activity, and database statistics.
+Codes offers built-in support for Prometheus metrics to help you monitor the performance and usage of your instance. These metrics provide insights into application health, user activity, and database statistics.
 
 ## Enabling metrics
 
@@ -38,7 +38,7 @@ metrics.port: 6158
 
 ## Available metrics
 
-### Opengist-specific metrics
+### Codes-specific metrics
 
 | Metric Name | Type | Description |
 |-------------|------|-------------|
@@ -48,7 +48,7 @@ metrics.port: 6158
 
 ### Standard HTTP metrics
 
-In addition to the Opengist-specific metrics, standard Prometheus HTTP metrics are also available through the Echo Prometheus middleware. These include request durations, request counts, and request/response sizes.
+In addition to the Codes-specific metrics, standard Prometheus HTTP metrics are also available through the Echo Prometheus middleware. These include request durations, request counts, and request/response sizes.
 
 These standard metrics follow the Prometheus naming convention and include labels for HTTP method, status code, and handler path.
 

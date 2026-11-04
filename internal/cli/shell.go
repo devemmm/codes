@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/thomiceli/opengist/internal/ipc"
+	"github.com/devemmm/codes/internal/ipc"
 	"github.com/urfave/cli/v2"
 )
 
@@ -27,7 +27,7 @@ var CmdShell = cli.Command{
 
 		code, err := runShell(ctx)
 		if err != nil {
-			fmt.Fprintln(os.Stderr, "Opengist: "+err.Error())
+			fmt.Fprintln(os.Stderr, "Codes: "+err.Error())
 			os.Exit(1)
 		}
 		os.Exit(code)
@@ -46,7 +46,7 @@ func runShell(ctx *cli.Context) (int, error) {
 
 	originalCmd := os.Getenv("SSH_ORIGINAL_COMMAND")
 	if originalCmd == "" {
-		fmt.Fprintln(os.Stderr, "Hi! You've successfully authenticated to Opengist, but Opengist does not provide shell access.")
+		fmt.Fprintln(os.Stderr, "Hi! You've successfully authenticated to Codes, but Codes does not provide shell access.")
 		return 0, nil
 	}
 

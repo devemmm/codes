@@ -1,7 +1,7 @@
 # Reset a user password
 
-To reset a user password, run the following command using the Opengist binary:
+To reset a user password, run the following command using the Codes binary:
 
 ```bash
-./opengist admin reset-password <username> <new-password>
+./codes admin reset-password <username> <new-password>
 ```

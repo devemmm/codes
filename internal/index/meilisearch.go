@@ -10,7 +10,7 @@ import (
 
 	"github.com/meilisearch/meilisearch-go"
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/config"
+	"github.com/devemmm/codes/internal/config"
 )
 
 type MeiliIndexer struct {

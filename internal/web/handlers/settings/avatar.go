@@ -8,9 +8,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/web/context"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/web/context"
 )
 
 const maxAvatarSize = 5 << 20 // 5 MiB

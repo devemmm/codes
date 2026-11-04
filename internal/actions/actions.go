@@ -9,11 +9,11 @@ import (
 	"time"
 
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/git"
-	"github.com/thomiceli/opengist/internal/index"
-	"github.com/thomiceli/opengist/internal/ssh"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/git"
+	"github.com/devemmm/codes/internal/index"
+	"github.com/devemmm/codes/internal/ssh"
 )
 
 const (

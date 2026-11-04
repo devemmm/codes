@@ -1,14 +1,12 @@
 # Install from binary
 
-Download the archive for your system from the release page [here](https://github.com/thomiceli/opengist/releases/latest), and extract it.
+Download the archive for your system from the [Codes Releases](https://github.com/devemmm/codes/releases/latest) page. Archives are named `codes<VERSION>-<OS>-<ARCH>.tar.gz` (or `.zip` for Windows).
 
 ```shell
-# example for linux amd64
-wget https://github.com/thomiceli/opengist/releases/download/v1.15.3/opengist1.15.3-linux-amd64.tar.gz
-
-tar xzvf opengist1.15.3-linux-amd64.tar.gz
-cd opengist
-chmod +x opengist
-./opengist # with or without `--config config.yml`
+# After downloading the matching Linux amd64 archive from the Releases page:
+tar xzvf codesVERSION-linux-amd64.tar.gz # Replace VERSION with the release number
+cd codes
+chmod +x codes
+./codes # with or without `--config config.yml`
 ```
 

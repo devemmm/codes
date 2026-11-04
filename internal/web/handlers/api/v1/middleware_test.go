@@ -8,8 +8,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/thomiceli/opengist/internal/db"
-	webtest "github.com/thomiceli/opengist/internal/web/test"
+	"github.com/devemmm/codes/internal/db"
+	webtest "github.com/devemmm/codes/internal/web/test"
 )
 
 // apiError mirrors the JSON error envelope produced by context.HTTPError:

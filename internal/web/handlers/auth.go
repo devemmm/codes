@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"github.com/thomiceli/opengist/internal/web/context"
+	"github.com/devemmm/codes/internal/web/context"
 )
 
 type ContextAuthInfo struct {

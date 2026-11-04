@@ -5,7 +5,7 @@ import (
 	"sync"
 
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/git"
+	"github.com/devemmm/codes/internal/git"
 )
 
 type RenderedFile interface {

@@ -9,7 +9,7 @@
         <!-- Read-only configuration -->
         <section class="bg-card h-fit rounded-lg border">
             <div class="border-b px-4 py-3">
-                <p class="text-muted-foreground text-xs italic">{{ .locale.Tr "admin.config-link" (join "<a target=\"_blank\" class=\"text-primary hover:underline\" href=\"https://github.com/thomiceli/opengist/blob/master/docs/configuration/configure.md#configuration\">" (toStr (.locale.Tr "admin.config-link-overriden")) "</a>") }}</p>
+                <p class="text-muted-foreground text-xs italic">{{ .locale.Tr "admin.config-link" (join "<a target=\"_blank\" class=\"text-primary hover:underline\" href=\"https://github.com/devemmm/codes/blob/codes/docs/configuration/configure.md#configuration\">" (toStr (.locale.Tr "admin.config-link-overriden")) "</a>") }}</p>
             </div>
             <div class="space-y-4 p-4">
                 {{ template "admin_config_section" (dict "title" "General") }}
@@ -17,7 +17,7 @@
                     {{ template "admin_config_row" (dict "k" "Log level" "v" .c.LogLevel) }}
                     {{ template "admin_config_row" (dict "k" "Log output" "v" .c.LogOutput) }}
                     {{ template "admin_config_row" (dict "k" "External URL" "v" .c.ExternalUrl) }}
-                    {{ template "admin_config_row" (dict "k" "Opengist home" "v" .c.OpengistHome) }}
+                    {{ template "admin_config_row" (dict "k" "Codes data directory" "v" .c.OpengistHome) }}
                     <div class="flex items-center justify-between gap-4 py-1.5">
                         <dt class="text-muted-foreground">Database type</dt>
                         <dd class="text-right font-medium break-all">{{ .dbtype }}{{ if eq .dbtype "SQLite" }} ({{ .c.SqliteJournalMode }}){{ end }}</dd>

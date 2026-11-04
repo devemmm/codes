@@ -1,92 +1,93 @@
-# Run with Systemd
+# Run with systemd
 
-For non-Docker users, you could run Opengist as a systemd service.
+For non-Docker deployments, Codes can run as a systemd service.
 
-## As root
-On Unix distributions with systemd, place the Opengist binary like:
+## System service
+
+Install the Codes binary and configuration:
 
 ```shell
-sudo cp opengist /usr/local/bin
-sudo mkdir -p /var/lib/opengist
-sudo cp config.yml /etc/opengist
+sudo install -m 0755 codes /usr/local/bin/codes
+sudo install -d -m 0755 /etc/codes
+sudo install -m 0644 config.yml /etc/codes/config.yml
 ```
 
-Edit the Opengist home directory configuration in `/etc/opengist/config.yml` like:
+Create a dedicated system user and configure the data home:
+
 ```shell
-opengist-home: /var/lib/opengist
+sudo useradd --system --home-dir /var/lib/codes --shell /usr/sbin/nologin codes
+sudo install -d -o codes -g codes /var/lib/codes
+sudo chown -R codes:codes /var/lib/codes
 ```
 
-Create a new user to run Opengist:
-```shell
-sudo useradd --system opengist
-sudo mkdir -p /var/lib/opengist
-sudo chown -R opengist:opengist /var/lib/opengist
+The application still accepts the historical `opengist-home` configuration
+key for compatibility:
+
+```yaml
+opengist-home: /var/lib/codes
 ```
 
-Then create a service file at `/etc/systemd/system/opengist.service`:
+Create `/etc/systemd/system/codes.service`:
+
 ```ini
 [Unit]
-Description=opengist Server
+Description=Codes Server
 After=network.target
 
 [Service]
 Type=simple
-User=opengist
-Group=opengist
-ExecStart=opengist --config /etc/opengist/config.yml
+User=codes
+Group=codes
+ExecStart=/usr/local/bin/codes --config /etc/codes/config.yml
 Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
 ```
 
-Finally, start the service:
+Enable and start the service:
+
 ```shell
-systemctl daemon-reload
-systemctl enable --now opengist
-systemctl status opengist
+sudo systemctl daemon-reload
+sudo systemctl enable --now codes
+sudo systemctl status codes
 ```
 
-----
+When upgrading an existing installation, keep its existing service unit, user,
+configuration, and data directory unless you have planned a separate migration.
 
-## As a normal user
-**NOTE: This was tested on Ubuntu 20.04 and newer. For other distros, please check the respective documentation**  
+## User service
 
-#### For the purpose of this documentation, we will assume that:
-- You've followed the instructions on how to run opengist [from source](https://github.com/thomiceli/opengist?tab=readme-ov-file#from-source)
-- Your shell user is named `pastebin`
-- All commands are being executed as the `pastebin` user
+This example assumes Codes was built from source and the shell user is `pastebin`.
+Adapt the paths and account name for your system.
 
-_If none of the above is true, then adapt the commands and paths to fit your needs._
+Enable lingering and create the systemd user directory:
 
-Enable lingering for the user:
 ```shell
 loginctl enable-linger
-```
-
-Create the user systemd folder:
-```
 mkdir -p /home/pastebin/.config/systemd/user
 ```
 
-Then create a service file at `/home/pastebin/.config/systemd/user/opengist.service`:
+Create `/home/pastebin/.config/systemd/user/codes.service`:
+
 ```ini
 [Unit]
-Description=opengist Server
+Description=Codes Server
 After=network.target
 
 [Service]
 Type=simple
-ExecStart=/home/pastebin/opengist/opengist --config /home/pastebin/opengist/config.yml
+ExecStart=/home/pastebin/codes/codes --config /home/pastebin/codes/config.yml
 Restart=on-failure
 
 [Install]
 WantedBy=default.target
 ```
 
-Finally, start the service:
+Enable and start the user service:
+
 ```shell
 systemctl --user daemon-reload
-systemctl --user enable --now opengist
-systemctl --user status opengist
+systemctl --user enable --now codes
+systemctl --user status codes
 ```

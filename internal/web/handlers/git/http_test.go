@@ -10,8 +10,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/thomiceli/opengist/internal/db"
-	webtest "github.com/thomiceli/opengist/internal/web/test"
+	"github.com/devemmm/codes/internal/db"
+	webtest "github.com/devemmm/codes/internal/web/test"
 )
 
 func gitClone(baseUrl, creds, user, gistId, destDir string) error {

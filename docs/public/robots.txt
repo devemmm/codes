@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://opengist.io/sitemap.xml
+Sitemap: https://codes.devemm.rw/sitemap.xml

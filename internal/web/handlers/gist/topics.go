@@ -1,9 +1,9 @@
 package gist
 
 import (
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/web/context"
-	"github.com/thomiceli/opengist/internal/web/handlers"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/web/context"
+	"github.com/devemmm/codes/internal/web/handlers"
 )
 
 // Topics lists topics in use, ordered from most to least used, each linking to

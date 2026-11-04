@@ -19,13 +19,13 @@ import (
 	"github.com/dustin/go-humanize"
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/index"
-	"github.com/thomiceli/opengist/internal/web/context"
-	"github.com/thomiceli/opengist/internal/web/handlers"
-	"github.com/thomiceli/opengist/public"
-	"github.com/thomiceli/opengist/templates"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/index"
+	"github.com/devemmm/codes/internal/web/context"
+	"github.com/devemmm/codes/internal/web/handlers"
+	"github.com/devemmm/codes/public"
+	"github.com/devemmm/codes/templates"
 )
 
 type Template struct {

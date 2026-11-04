@@ -3,9 +3,9 @@ package auth
 import (
 	"net/url"
 
-	"github.com/thomiceli/opengist/internal/auth/totp"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/web/context"
+	"github.com/devemmm/codes/internal/auth/totp"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/web/context"
 )
 
 func BeginTotp(ctx *context.Context) error {
@@ -32,7 +32,9 @@ func BeginTotp(ctx *context.Context) error {
 	}
 	sess.Values["totpSecret"] = totpSecret
 	sess.Values["generatedSecret"] = generatedSecret
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return ctx.SaveSessionError("Cannot save TOTP setup session", err)
+	}
 
 	ctx.SetData("totpSecret", totpSecret)
 	ctx.SetData("totpQrcode", qrcode)
@@ -93,7 +95,9 @@ func FinishTotp(ctx *context.Context) error {
 
 	delete(sess.Values, "totpSecret")
 	delete(sess.Values, "generatedSecret")
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return ctx.SaveSessionError("Cannot save TOTP setup session", err)
+	}
 
 	ctx.SetData("recoveryCodes", codes)
 	ctx.SetData("settingsHeaderPage", "authentication")
@@ -143,7 +147,9 @@ func AssertTotp(ctx *context.Context) error {
 	sess.Values["user"] = userId
 	sess.Options.MaxAge = 60 * 60 * 24 * 365 // 1 year
 	delete(sess.Values, "mfaID")
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return ctx.SaveSessionError("Cannot save TOTP authentication session", err)
+	}
 
 	return ctx.RedirectTo(redirectUrl)
 }

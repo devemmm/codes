@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/git"
-	"github.com/thomiceli/opengist/internal/render"
-	"github.com/thomiceli/opengist/internal/web/context"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/git"
+	"github.com/devemmm/codes/internal/render"
+	"github.com/devemmm/codes/internal/web/context"
 )
 
 func GistIndex(ctx *context.Context) error {

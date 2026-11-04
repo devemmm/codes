@@ -1,8 +1,8 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
-const version = 'v1.15'
-const dockerCommand = 'docker run -p 6157:6157 -v "$HOME/.opengist:/opengist" ghcr.io/thomiceli/opengist:1.15'
+const version = 'Codes'
+const dockerCommand = 'docker run -p 6157:6157 -v "$HOME/.codes:/opengist" ghcr.io/devemmm/codes:latest'
 
 const stars = ref(null)
 const formattedStars = computed(() => {
@@ -27,7 +27,7 @@ onMounted(async () => {
   } catch {}
 
   try {
-    const res = await fetch('https://api.github.com/repos/thomiceli/opengist')
+    const res = await fetch('https://api.github.com/repos/devemmm/codes')
     if (res.ok) {
       stars.value = (await res.json()).stargazers_count
       try {
@@ -54,27 +54,19 @@ onBeforeUnmount(() => clearTimeout(timer))
 
 <template>
   <section class="og-hero">
-    <a
-      class="og-badge"
-      href="https://github.com/thomiceli/opengist/releases"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
+    <div class="og-badge">
       <span class="og-badge__dot" />
-      {{ version }} released: Major UI rework
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="og-badge__arrow">
-        <path stroke-linecap="round" stroke-linejoin="round" d="m9 6 6 6-6 6" />
-      </svg>
-    </a>
+      Codes — Open-source and self-hosted
+    </div>
 
     <img
       class="og-logo"
-      src="https://raw.githubusercontent.com/thomiceli/opengist/master/public/img/opengist.svg"
-      alt="Opengist"
+      src="https://raw.githubusercontent.com/devemmm/codes/codes/public/img/codes.png"
+      alt="Codes"
     />
 
     <h1 class="og-title">
-      <span class="og-title__shine">Opengist</span>
+      <span class="og-title__shine">Codes</span>
     </h1>
 
     <p class="og-tagline">
@@ -83,19 +75,20 @@ onBeforeUnmount(() => clearTimeout(timer))
 
     <div class="og-actions">
       <a class="og-btn og-btn--primary" href="/docs">Get started</a>
-      <a class="og-btn" href="https://demo.opengist.io" target="_blank" rel="noopener noreferrer">
-        Live demo
-      </a>
+
       <a
         class="og-btn og-btn--github"
-        href="https://github.com/thomiceli/opengist"
+        href="https://github.com/devemmm/codes"
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Opengist on GitHub"
+        aria-label="Codes on GitHub"
       >
         <svg class="og-btn__gh" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
           <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8" />
         </svg>
+
+        GitHub
+
         <span v-if="formattedStars" class="og-btn__stars">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="m12 17.27 6.18 3.73-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />

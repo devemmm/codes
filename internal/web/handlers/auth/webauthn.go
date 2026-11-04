@@ -3,9 +3,9 @@ package auth
 import (
 	"bytes"
 	gojson "encoding/json"
-	"github.com/thomiceli/opengist/internal/auth/webauthn"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/web/context"
+	"github.com/devemmm/codes/internal/auth/webauthn"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/web/context"
 	"io"
 )
 
@@ -18,7 +18,9 @@ func BeginWebAuthnBinding(ctx *context.Context) error {
 	sess := ctx.GetSession()
 	sess.Values["webauthn_registration_session"] = jsonWaSession
 	sess.Options.MaxAge = 5 * 60 // 5 minutes
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return ctx.SaveSessionError("Cannot save WebAuthn registration session", err)
+	}
 
 	return ctx.JSON(200, credsCreation)
 }
@@ -61,7 +63,9 @@ func FinishWebAuthnBinding(ctx *context.Context) error {
 	}
 
 	delete(sess.Values, "webauthn_registration_session")
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return ctx.SaveSessionError("Cannot save WebAuthn registration session", err)
+	}
 
 	ctx.AddFlash(ctx.Tr("flash.auth.passkey-registred", passkeyName), "success")
 	return ctx.Json([]string{"OK"})
@@ -76,7 +80,9 @@ func BeginWebAuthnLogin(ctx *context.Context) error {
 	sess := ctx.GetSession()
 	sess.Values["webauthn_login_session"] = jsonWaSession
 	sess.Options.MaxAge = 5 * 60 // 5 minutes
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return ctx.SaveSessionError("Cannot save WebAuthn login session", err)
+	}
 
 	return ctx.Json(credsCreation)
 }
@@ -97,7 +103,9 @@ func FinishWebAuthnLogin(ctx *context.Context) error {
 	sess.Options.MaxAge = 60 * 60 * 24 * 365 // 1 year
 
 	delete(sess.Values, "webauthn_login_session")
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return ctx.SaveSessionError("Cannot save WebAuthn login session", err)
+	}
 
 	return ctx.Json([]string{"OK"})
 }
@@ -117,7 +125,9 @@ func BeginWebAuthnAssertion(ctx *context.Context) error {
 
 	sess.Values["webauthn_assertion_session"] = jsonWaSession
 	sess.Options.MaxAge = 5 * 60 // 5 minutes
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return ctx.SaveSessionError("Cannot save WebAuthn assertion session", err)
+	}
 
 	return ctx.Json(credsCreation)
 }
@@ -145,7 +155,9 @@ func FinishWebAuthnAssertion(ctx *context.Context) error {
 
 	delete(sess.Values, "webauthn_assertion_session")
 	delete(sess.Values, "mfaID")
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return ctx.SaveSessionError("Cannot save WebAuthn assertion session", err)
+	}
 
 	return ctx.Json([]string{"OK"})
 }

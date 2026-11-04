@@ -10,11 +10,11 @@ package ipc
 import (
 	"net/http"
 
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/git"
-	"github.com/thomiceli/opengist/internal/hooks"
-	"github.com/thomiceli/opengist/internal/ipc"
-	"github.com/thomiceli/opengist/internal/web/context"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/git"
+	"github.com/devemmm/codes/internal/hooks"
+	"github.com/devemmm/codes/internal/ipc"
+	"github.com/devemmm/codes/internal/web/context"
 )
 
 // PreReceive handles a pre-receive event forwarded by the hook subprocess and

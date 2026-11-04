@@ -12,7 +12,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	webtest "github.com/thomiceli/opengist/internal/web/test"
+	webtest "github.com/devemmm/codes/internal/web/test"
 )
 
 func dumbGet(t *testing.T, baseUrl, urlPath, creds string) (int, []byte) {

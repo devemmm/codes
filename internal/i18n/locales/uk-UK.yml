@@ -129,9 +129,9 @@ settings.ssh-key-last-used: Останнє використання
 settings.ssh-key-exists: SSH ключ вже існує
 settings.change-username: Змінити им'я користувача
 settings.create-password: Створити пароль
-settings.create-password-help: Створити ваш пароль для логіну в Opengist через HTTP
+settings.create-password-help: Створити ваш пароль для логіну в Codes через HTTP
 settings.change-password: Створити пароль
-settings.change-password-help: Змінити ваш пароль для логіну в Opengist через HTTP
+settings.change-password-help: Змінити ваш пароль для логіну в Codes через HTTP
 settings.password-label-title: Пароль
 
 auth.signup-disabled: Адміністратор відключив реєстрацію

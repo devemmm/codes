@@ -2,17 +2,18 @@ package context
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"html/template"
 	"net/http"
 	"sync"
 
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/i18n"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/i18n"
 )
 
 type dataKey string
@@ -42,11 +43,19 @@ type Context struct {
 	User  *db.User
 }
 
-func NewContext(c echo.Context, sessionPath string) *Context {
+func NewContext(c echo.Context, sessionPath string) (*Context, error) {
+	store, err := NewStore(sessionPath)
+	if err != nil {
+		return nil, err
+	}
+	return NewContextWithStore(c, store), nil
+}
+
+func NewContextWithStore(c echo.Context, store *Store) *Context {
 	ctx := &Context{
 		Context: c,
 		data:    make(echo.Map),
-		store:   NewStore(sessionPath),
+		store:   store,
 	}
 
 	ctx.SetRequest(ctx.Request().WithContext(context.WithValue(ctx.Request().Context(), DataKeyStr, ctx.data)))
@@ -125,14 +134,52 @@ func (ctx *Context) GetSession() *sessions.Session {
 	return sess
 }
 
-func (ctx *Context) SaveSession(sess *sessions.Session) {
-	_ = sess.Save(ctx.Request(), ctx.Response())
+func (ctx *Context) SaveSession(sess *sessions.Session) error {
+	return sess.Save(ctx.Request(), ctx.Response())
 }
 
-func (ctx *Context) DeleteSession() {
+func (ctx *Context) SaveSessionError(message string, err error) error {
+	status := 500
+	if errors.Is(err, ErrSessionConflict) || errors.Is(err, ErrSessionExpired) {
+		status = 409
+	}
+	return ctx.ErrorRes(status, message, err)
+}
+
+// UpdateSession reloads and modifies the authenticated filesystem session
+// under an OS-level lock shared by all Codes processes using this session path.
+func (ctx *Context) UpdateSession(update func(*sessions.Session) error) error {
+	store := ctx.store.fileStore
+	if store == nil {
+		store = ctx.store.UserStore
+	}
+	initialRequest := ctx.Request().Clone(context.Background())
+	initial, err := store.Get(initialRequest, "session")
+	if err != nil {
+		return err
+	}
+	return ctx.store.withSessionLock(initial.ID, func() error {
+		// Do not carry Gorilla's per-request registry into this reload: middleware
+		// may already have cached a stale copy before the cross-process lock.
+		req := ctx.Request().Clone(context.Background())
+		sess, err := store.Get(req, "session")
+		if err != nil {
+			return err
+		}
+		if age, ok := sess.Values[sessionMaxAgeKey].(int); ok && age > 0 {
+			sess.Options.MaxAge = age
+		}
+		if err := update(sess); err != nil {
+			return err
+		}
+		return store.Save(req, ctx.Response(), sess)
+	})
+}
+
+func (ctx *Context) DeleteSession() error {
 	sess := ctx.GetSession()
 	sess.Options.MaxAge = -1
-	ctx.SaveSession(sess)
+	return ctx.SaveSession(sess)
 }
 
 func (ctx *Context) AddFlash(flashMessage string, flashType string) {

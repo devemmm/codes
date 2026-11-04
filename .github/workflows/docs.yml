@@ -29,9 +29,9 @@ jobs:
       - name: Push to docs repository
         run: |
           git clone https://${{ secrets.STATIC_REPO_TOKEN }}@github.com/${{ secrets.STATIC_REPO }}.git target-repo
-          rm -rf target-repo/srv/opengist
-          mkdir -p target-repo/srv/opengist
-          cp -r docs/.vitepress/dist/* target-repo/srv/opengist/
+          rm -rf target-repo/srv/codes
+          mkdir -p target-repo/srv/codes
+          cp -r docs/.vitepress/dist/* target-repo/srv/codes/
           cd target-repo
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"

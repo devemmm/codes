@@ -182,9 +182,9 @@ settings.link-gitlab-account: Lier le compte GitLab
 gist.search.help.language: gists qui ont des fichiers écrits en un langage spécifique
 settings.change-username: Changer le nom d'utilisateur
 settings.create-password: Créer un mot de passe
-settings.create-password-help: Créer un mot de passe pour se connecter à Opengist via HTTP
+settings.create-password-help: Créer un mot de passe pour se connecter à Codes via HTTP
 settings.change-password: Changer le mot de passe
-settings.change-password-help: Changer le mot de passe pour se connecter à Opengist via HTTP
+settings.change-password-help: Changer le mot de passe pour se connecter à Codes via HTTP
 settings.password-label-title: Mot de passe
 admin.actions.sync-previews: Synchroniser l'aperçu des gists
 admin.actions.reset-hooks: Réinitialiser les hooks de Git pour tous les dépôts

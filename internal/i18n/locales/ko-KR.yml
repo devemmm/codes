@@ -169,9 +169,9 @@ settings.ssh-key-last-used: 마지막 사용
 settings.ssh-key-exists: 이미 존재하는 SSH 키입니다
 settings.change-username: 사용자 이름 변경
 settings.create-password: 비밀번호 생성
-settings.create-password-help: HTTP로 Opengist에 로그인하기 위한 비밀번호를 생성하세요
+settings.create-password-help: HTTP로 Codes에 로그인하기 위한 비밀번호를 생성하세요
 settings.change-password: 비밀번호 변경
-settings.change-password-help: HTTP로 Opengist에 로그인하기 위한 비밀번호를 변경하세요
+settings.change-password-help: HTTP로 Codes에 로그인하기 위한 비밀번호를 변경하세요
 settings.password-label-title: 비밀번호
 settings.header.account: 계정
 settings.header.mfa: MFA
@@ -234,7 +234,7 @@ auth.oauth.complete-registration-button: 계정 생성
 auth.oauth.signing-in-with: "%s(으)로 로그인하는 중"
 auth.oauth.cancel: 취소
 auth.oauth.existing-account: 기존 계정이 있으신가요?
-auth.oauth.already-have-account: "이미 Opengist 계정이 있다면, 먼저 로그인한 후 설정에서 %s 계정을 연동하세요."
+auth.oauth.already-have-account: "이미 Codes 계정이 있다면, 먼저 로그인한 후 설정에서 %s 계정을 연동하세요."
 auth.mfa: 다단계 인증
 auth.mfa.passkey: 패스키
 auth.mfa.passkeys: 패스키

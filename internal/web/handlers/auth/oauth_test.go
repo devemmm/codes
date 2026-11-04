@@ -11,11 +11,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/web/test"
 	"github.com/oauth2-proxy/mockoidc"
 	"github.com/stretchr/testify/require"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/web/test"
 )
 
 type oidcUser struct {
@@ -101,9 +101,28 @@ func TestOIDCLoginPKCE(t *testing.T) {
 		require.NotEmpty(t, authorizeURL.Query().Get("code_challenge"), "code_challenge missing from the authorization request")
 		require.Equal(t, "S256", authorizeURL.Query().Get("code_challenge_method"))
 
-		require.Equal(t, http.StatusOK, resp.StatusCode)
-		require.Equal(t, "/oauth/register", resp.Request.URL.Path)
+		require.Equal(t, "/-/login", resp.Request.URL.Path,
+			"an OAuth identity must not be able to claim the first account")
+		hasUsers, err := db.HasUsers()
+		require.NoError(t, err)
+		require.False(t, hasUsers)
 	})
+
+	// A valid invitation cannot bypass first-administrator bootstrap either.
+	invitation := &db.Invitation{ExpiresAt: time.Now().Add(time.Hour).Unix(), NbMax: 1}
+	require.NoError(t, invitation.Create())
+	resp, _, _ := login(t, invitation.Code, nil)
+	_ = resp.Body.Close()
+	require.Equal(t, "/-/login", resp.Request.URL.Path)
+	hasUsers, err := db.HasUsers()
+	require.NoError(t, err)
+	require.False(t, hasUsers)
+
+	// Seed an administrator through the trusted test fixture (the production
+	// equivalent is `admin create-user --admin`) before exercising public OAuth
+	// registration on a populated installation.
+	s.Register(t, "bootstrap-admin")
+	require.NoError(t, db.UpdateSetting(db.SettingDisableSignup, "0"))
 
 	t.Run("mismatched challenge fails the token exchange", func(t *testing.T) {
 		resp, _, _ := login(t, "", func(u *url.URL) {

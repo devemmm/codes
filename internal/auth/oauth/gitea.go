@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/web/context"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/gitea"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/web/context"
 )
 
 type GiteaProvider struct {
@@ -33,11 +33,12 @@ func (p *GiteaProvider) RegisterProvider() error {
 	return nil
 }
 
-func (p *GiteaProvider) BeginAuthHandler(ctx *context.Context) {
+func (p *GiteaProvider) BeginAuthHandler(ctx *context.Context) error {
 	ctxValue := gocontext.WithValue(ctx.Request().Context(), gothic.ProviderParamKey, GiteaProviderString)
 	ctx.SetRequest(ctx.Request().WithContext(ctxValue))
 
 	gothic.BeginAuthHandler(ctx.Response(), ctx.Request())
+	return nil
 }
 
 func (p *GiteaProvider) UserHasProvider(user *db.User) bool {

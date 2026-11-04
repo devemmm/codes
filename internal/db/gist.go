@@ -12,9 +12,9 @@ import (
 	"github.com/alecthomas/chroma/v2/lexers"
 	"github.com/dustin/go-humanize"
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/git"
-	"github.com/thomiceli/opengist/internal/index"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/git"
+	"github.com/devemmm/codes/internal/index"
 	"gorm.io/gorm"
 )
 

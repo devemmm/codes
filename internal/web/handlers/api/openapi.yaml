@@ -1,10 +1,10 @@
 openapi: 3.1.0
 
 info:
-  title: Opengist API
+  title: Codes API
   version: "1.0.0"
   description: |
-    REST API for Opengist.
+    REST API for Codes.
     
     The base URL is `/api`.
 
@@ -15,13 +15,13 @@ info:
 
     Example usage:
     
-        curl -H "Authorization: Bearer og_xxxxxxxx" https://opengist.local/api/gists
+        curl -H "Authorization: Bearer og_xxxxxxxx" https://codes.local/api/gists
 
     Tokens are created from the web UI under Settings → Access Tokens and carry
     per-resource scopes (gist, user) at read or read/write level.
   license:
     name: AGPL-3.0
-    url: https://github.com/thomiceli/opengist/blob/master/LICENSE
+    url: https://github.com/devemmm/codes/blob/codes/LICENSE
 
 servers:
   - url: /api
@@ -325,7 +325,7 @@ paths:
         - {} # Authorization optional (anonymous allowed)
       description: |
         Lists the commits of a gist's repository, most recent first. Each
-        commit's author is resolved to an Opengist account when one matches the
+        commit's author is resolved to a Codes account when one matches the
         commit email.
 
         Public and unlisted gists are readable by anyone; a private gist
@@ -946,7 +946,7 @@ components:
           description: Commit SHA.
         author: { $ref: "#/components/schemas/CommitAuthor" }
         user:
-          description: Opengist account matching the commit email, or null.
+          description: Codes account matching the commit email, or null.
           oneOf:
             - { $ref: "#/components/schemas/SimpleUser" }
             - { type: "null" }

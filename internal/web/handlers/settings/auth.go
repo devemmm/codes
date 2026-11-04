@@ -1,11 +1,11 @@
 package settings
 
 import (
-	passwordpkg "github.com/thomiceli/opengist/internal/auth/password"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/i18n"
-	"github.com/thomiceli/opengist/internal/validator"
-	"github.com/thomiceli/opengist/internal/web/context"
+	passwordpkg "github.com/devemmm/codes/internal/auth/password"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/i18n"
+	"github.com/devemmm/codes/internal/validator"
+	"github.com/devemmm/codes/internal/web/context"
 	"strconv"
 )
 

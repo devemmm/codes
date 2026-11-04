@@ -8,11 +8,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/git"
+	webtest "github.com/devemmm/codes/internal/web/test"
 	"github.com/stretchr/testify/require"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/git"
-	webtest "github.com/thomiceli/opengist/internal/web/test"
 )
 
 func TestAdminPages(t *testing.T) {
@@ -82,7 +82,11 @@ func TestAdminSetConfig(t *testing.T) {
 		for _, setting := range settings {
 			val, err := db.GetSetting(setting)
 			require.NoError(t, err)
-			require.Equal(t, "0", val)
+			initialValue := "0"
+			if setting == db.SettingDisableSignup {
+				initialValue = "1"
+			}
+			require.Equal(t, initialValue, val)
 
 			s.Request(t, "PUT", "/-/admin-panel/set-config", url.Values{"key": {setting}, "value": {"1"}}, 200)
 
@@ -90,11 +94,11 @@ func TestAdminSetConfig(t *testing.T) {
 			require.NoError(t, err)
 			require.Equal(t, "1", val)
 
-			s.Request(t, "PUT", "/-/admin-panel/set-config", url.Values{"key": {setting}, "value": {"0"}}, 200)
+			s.Request(t, "PUT", "/-/admin-panel/set-config", url.Values{"key": {setting}, "value": {initialValue}}, 200)
 
 			val, err = db.GetSetting(setting)
 			require.NoError(t, err)
-			require.Equal(t, "0", val)
+			require.Equal(t, initialValue, val)
 		}
 	})
 }

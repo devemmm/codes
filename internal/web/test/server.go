@@ -12,16 +12,17 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/devemmm/codes/internal/auth/password"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/git"
+	"github.com/devemmm/codes/internal/index"
+	"github.com/devemmm/codes/internal/web/context"
+	"github.com/devemmm/codes/internal/web/handlers/metrics"
+	"github.com/devemmm/codes/internal/web/server"
 	"github.com/gorilla/schema"
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/require"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/git"
-	"github.com/thomiceli/opengist/internal/index"
-	"github.com/thomiceli/opengist/internal/web/context"
-	"github.com/thomiceli/opengist/internal/web/handlers/metrics"
-	"github.com/thomiceli/opengist/internal/web/server"
 )
 
 var databaseType string
@@ -155,7 +156,18 @@ func (s *Server) TestCtxData(t *testing.T, expected echo.Map) {
 }
 
 func (s *Server) Register(t *testing.T, user string) {
-	s.Request(t, "POST", "/-/register", db.UserDTO{Username: user, Password: user}, 302)
+	t.Helper()
+
+	hasUsers, err := db.HasUsers()
+	require.NoError(t, err)
+	hashedPassword, err := password.HashPassword(user)
+	require.NoError(t, err)
+	account := &db.User{
+		Username: user,
+		Password: hashedPassword,
+		IsAdmin:  !hasUsers,
+	}
+	require.NoError(t, account.Create())
 }
 
 func (s *Server) Login(t *testing.T, user string) {
@@ -167,7 +179,11 @@ func (s *Server) Logout() {
 }
 
 func (s *Server) CreateGist(t *testing.T, visibility string) (gistPath string, gist *db.Gist, username, identifier string) {
-	s.Request(t, "POST", "/-/register", db.UserDTO{Username: "thomas", Password: "thomas"}, 0)
+	if exists, err := db.UserExists("thomas"); err != nil {
+		require.NoError(t, err)
+	} else if !exists {
+		s.Register(t, "thomas")
+	}
 	s.Login(t, "thomas")
 
 	resp := s.Request(t, "POST", "/", url.Values{

@@ -2,14 +2,14 @@
 aside: true
 ---
 
-# Opengist API Reference
+# Codes API Reference
 
-Opengist exposes a REST API authenticated with Personal Access Tokens, intended
+Codes exposes a REST API authenticated with Personal Access Tokens, intended
 for programmatic access to gist and user resources.
 
 The base URL for the API is 
 ```
-https://opengist.example.com/api/
+https://codes.example.com/api/
 ```
 
 > OpenAPI 3.1 spec is available at
@@ -53,7 +53,7 @@ The single gist endpoints are available without authentication when an admin ena
 
 ## Schema
 
-The API lives under the `/api/` prefix on the same host as your Opengist
+The API lives under the `/api/` prefix on the same host as your Codes
 instance. All data is sent and received as JSON.
 
 Every endpoint responds with JSON unless specified otherwise
@@ -90,8 +90,8 @@ Pagination metadata is returned in the response headers:
 The `Link` header is formatted as follows:
 
 ```
-Link: <https://opengist.example/api/gists?page=2&per_page=30>; rel="next",
-      <https://opengist.example/api/gists?page=1&per_page=30>; rel="prev"
+Link: <https://codes.example/api/gists?page=2&per_page=30>; rel="next",
+      <https://codes.example/api/gists?page=1&per_page=30>; rel="prev"
 ```
 
 

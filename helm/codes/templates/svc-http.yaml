@@ -42,6 +42,6 @@ spec:
     {{- if  .Values.service.http.nodePort }}
       nodePort: {{ .Values.service.http.nodePort }}
     {{- end }}
-      targetPort: {{ index .Values.config "http.port" }}
+      targetPort: {{ index .Values.config "http.port" | default 6157 }}
   selector:
     {{- include "opengist.selectorLabels" . | nindent 4 }}

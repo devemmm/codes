@@ -4,10 +4,10 @@
         {{ if .c.CustomLogo }}
         <img src="{{ custom .c.CustomLogo }}" class="mb-3 h-12 object-cover" alt="Logo" />
         {{ else }}
-        <img src="{{ asset "img/opengist.svg" }}" class="mb-3 size-12" alt="Logo" />
+        <img src="{{ asset "img/codes.png" }}" class="mb-3 size-12" alt="Logo" />
         {{ end }}
         <h1 class="text-2xl font-bold leading-tight">
-            {{ if .isLoginPage }}{{ .locale.Tr "auth.login" }}{{ else }}{{ .locale.Tr "auth.signup" }}{{ end }} to {{ if .c.CustomName }}{{ .c.CustomName }}{{ else }}Opengist{{ end }}
+            {{ if .isLoginPage }}{{ .locale.Tr "auth.login" }}{{ else }}{{ .locale.Tr "auth.signup" }}{{ end }} to {{ if .c.CustomName }}{{ .c.CustomName }}{{ else }}Codes{{ end }}
         </h1>
     </div>
 

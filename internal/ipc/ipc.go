@@ -25,7 +25,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/thomiceli/opengist/internal/config"
+	"github.com/devemmm/codes/internal/config"
 )
 
 // AuthHeader carries the internal API token on requests from subprocesses to

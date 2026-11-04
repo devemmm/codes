@@ -1,10 +1,10 @@
 # Import Gists from GitHub
 
-After running Opengist at least once, you can import your Gists from GitHub using this script:
+After running Codes at least once, you can import your Gists from GitHub using this script:
 
 ```shell
 github_user=user # replace with your GitHub username
-opengist_url="http://user:password@opengist.url/init" # replace user, password and Opengist url
+opengist_url="http://user:password@codes.example.com/init" # replace user, password and Codes url
 
 curl -s https://api.github.com/users/"$github_user"/gists?per_page=100 | jq '.[] | .git_pull_url' -r | while read url; do 
     git clone "$url"

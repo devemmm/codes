@@ -1,6 +1,6 @@
 # Admin panel
 
-The first user created on your Opengist instance has access to the Admin panel.
+The first user created on your Codes instance has access to the Admin panel.
 
 To access the Admin panel:
 
@@ -12,7 +12,7 @@ To access the Admin panel:
 
 ### General
 
-Here you can see some basic information, like Opengist version, alongside some stats.
+Here you can see some basic information, like Codes version, alongside some stats.
 
 You can also start some actions like forcing synchronization of gists,
 starting garbage collection, etc.

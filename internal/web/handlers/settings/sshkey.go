@@ -1,11 +1,11 @@
 package settings
 
 import (
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/i18n"
-	opengistssh "github.com/thomiceli/opengist/internal/ssh"
-	"github.com/thomiceli/opengist/internal/validator"
-	"github.com/thomiceli/opengist/internal/web/context"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/i18n"
+	opengistssh "github.com/devemmm/codes/internal/ssh"
+	"github.com/devemmm/codes/internal/validator"
+	"github.com/devemmm/codes/internal/web/context"
 	"golang.org/x/crypto/ssh"
 	"strconv"
 	"strings"

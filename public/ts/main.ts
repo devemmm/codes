@@ -1,6 +1,6 @@
 import '../css/main.css';
 import '../img/favicon-32.png';
-import '../img/opengist.svg';
+import '../img/codes.png';
 
 import 'htmx.org';
 import 'hyperscript.org';

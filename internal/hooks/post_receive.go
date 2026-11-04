@@ -10,11 +10,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/git"
-	"github.com/thomiceli/opengist/internal/ipc"
-	validatorpkg "github.com/thomiceli/opengist/internal/validator"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/git"
+	"github.com/devemmm/codes/internal/ipc"
+	validatorpkg "github.com/devemmm/codes/internal/validator"
 )
 
 // PostReceive is the client side of the post-receive hook. It runs in the

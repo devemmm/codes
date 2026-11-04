@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/thomiceli/opengist/internal/db"
+	"github.com/devemmm/codes/internal/db"
 )
 
 // APIRequestUnmarshal calls APIRequest and unmarshals the body into out (if non-nil).

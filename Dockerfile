@@ -55,12 +55,12 @@ RUN apk update && \
     git
 
 RUN addgroup -S opengist && \
-    adduser -S -G opengist -s /bin/ash -g 'Opengist User' opengist
+    adduser -S -G opengist -s /bin/ash -g 'Codes User' opengist
 
 WORKDIR /app/opengist
 
 COPY --from=build --chown=opengist:opengist /opengist/config.yml /config.yml
-COPY --from=build --chown=opengist:opengist /opengist/opengist .
+COPY --from=build --chown=opengist:opengist /opengist/codes .
 COPY --from=build --chown=opengist:opengist /opengist/docker ./docker
 
 ENV OG_OPENGIST_HOME=/opengist

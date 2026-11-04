@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"slices"
 
-	"github.com/thomiceli/opengist/internal/auth/password"
-	ogtotp "github.com/thomiceli/opengist/internal/auth/totp"
-	"github.com/thomiceli/opengist/internal/config"
+	"github.com/devemmm/codes/internal/auth/password"
+	ogtotp "github.com/devemmm/codes/internal/auth/totp"
+	"github.com/devemmm/codes/internal/config"
 )
 
 type TOTP struct {

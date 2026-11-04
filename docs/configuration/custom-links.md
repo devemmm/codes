@@ -1,6 +1,6 @@
 # Custom links
 
-On the footer of your Opengist instance, you can add links to custom static templates or any other website you want to link to.
+On the footer of your Codes instance, you can add links to custom static templates or any other website you want to link to.
 This can be useful for legal information, privacy policy, or any other information you want to provide to your users.
 
 To add one or more links, you can add your own file to the `$opengist-home/custom` directory or set a URL, then define the relative path and its name in the config.
@@ -22,12 +22,12 @@ OG_CUSTOM_STATIC_LINK_0_NAME="Legal Notices" \
 OG_CUSTOM_STATIC_LINK_0_PATH=legal.html \
 OG_CUSTOM_STATIC_LINK_1_NAME=Gitea \
 OG_CUSTOM_STATIC_LINK_1_PATH=https://gitea.com \
-./opengist
+./codes
 ```
 
 ## Templating custom HTML pages
 
-In the start and end of the custom HTML files, you can use the syntax to include the header and footer of the Opengist instance:
+In the start and end of the custom HTML files, you can use the syntax to include the header and footer of the Codes instance:
 
 ```html
 {{ template "header" . }}
@@ -59,4 +59,4 @@ If you want your custom page to integrate well into the existing theme, you can 
 {{ template "footer" . }}
 ```
 
-You can adjust above as needed. Opengist uses TailwindCSS classes.
+You can adjust above as needed. Codes uses TailwindCSS classes.

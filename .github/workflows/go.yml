@@ -2,6 +2,7 @@ name: "Go CI"
 on:
   push:
     branches:
+      - codes
       - master
       - 'dev-*'
   workflow_dispatch:

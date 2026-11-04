@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/web/context"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/github"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/web/context"
 )
 
 type GitHubProvider struct {
@@ -30,11 +30,12 @@ func (p *GitHubProvider) RegisterProvider() error {
 	return nil
 }
 
-func (p *GitHubProvider) BeginAuthHandler(ctx *context.Context) {
+func (p *GitHubProvider) BeginAuthHandler(ctx *context.Context) error {
 	ctxValue := gocontext.WithValue(ctx.Request().Context(), gothic.ProviderParamKey, GitHubProviderString)
 	ctx.SetRequest(ctx.Request().WithContext(ctxValue))
 
 	gothic.BeginAuthHandler(ctx.Response(), ctx.Request())
+	return nil
 }
 
 func (p *GitHubProvider) UserHasProvider(user *db.User) bool {

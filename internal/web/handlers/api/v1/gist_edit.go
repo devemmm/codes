@@ -7,10 +7,10 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/git"
-	"github.com/thomiceli/opengist/internal/web/context"
-	"github.com/thomiceli/opengist/internal/web/handlers/api/v1/types"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/git"
+	"github.com/devemmm/codes/internal/web/context"
+	"github.com/devemmm/codes/internal/web/handlers/api/v1/types"
 )
 
 // strOrEmpty dereferences an optional string field, returning "" when nil.

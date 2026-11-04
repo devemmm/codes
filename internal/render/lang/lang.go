@@ -8,7 +8,7 @@ import (
 
 	"github.com/alecthomas/chroma/v2"
 	"github.com/alecthomas/chroma/v2/lexers"
-	"github.com/thomiceli/opengist/internal/git"
+	"github.com/devemmm/codes/internal/git"
 )
 
 // Parse returns the language label for a file (e.g. "Go", "Markdown", "SVG",

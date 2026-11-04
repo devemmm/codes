@@ -8,8 +8,8 @@ import (
 	"github.com/go-webauthn/webauthn/protocol"
 	"github.com/go-webauthn/webauthn/webauthn"
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
 )
 
 var webAuthn *webauthn.WebAuthn
@@ -36,7 +36,7 @@ func Init(urlStr string) error {
 	}
 
 	webAuthn, err = webauthn.New(&webauthn.Config{
-		RPDisplayName: "Opengist",
+		RPDisplayName: "Codes",
 		RPID:          rpid,
 		RPOrigins:     []string{rporigin},
 	})
@@ -50,7 +50,7 @@ func BeginBinding(dbUser *db.User) (credCreation *protocol.CredentialCreation, j
 			ResidentKey:      protocol.ResidentKeyRequirementRequired,
 			UserVerification: protocol.VerificationRequired,
 		},
-	), webauthn.WithExtensions(webauthn.WithExtensionAppIDExclude("Opengist")), webauthn.WithExclusions(waUser.Exclusions()))
+	), webauthn.WithExtensions(webauthn.WithExtensionAppIDExclude("Codes")), webauthn.WithExclusions(waUser.Exclusions()))
 	if err != nil {
 		return nil, nil, err
 	}

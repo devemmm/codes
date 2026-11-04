@@ -8,12 +8,12 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/git"
-	"github.com/thomiceli/opengist/internal/i18n"
-	"github.com/thomiceli/opengist/internal/validator"
-	"github.com/thomiceli/opengist/internal/web/context"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/git"
+	"github.com/devemmm/codes/internal/i18n"
+	"github.com/devemmm/codes/internal/validator"
+	"github.com/devemmm/codes/internal/web/context"
 )
 
 func Create(ctx *context.Context) error {

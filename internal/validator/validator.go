@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/thomiceli/opengist/internal/i18n"
+	"github.com/devemmm/codes/internal/i18n"
 )
 
 type OpengistValidator struct {

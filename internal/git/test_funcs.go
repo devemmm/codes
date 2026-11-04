@@ -2,7 +2,7 @@ package git
 
 import (
 	"github.com/stretchr/testify/require"
-	"github.com/thomiceli/opengist/internal/config"
+	"github.com/devemmm/codes/internal/config"
 	"io"
 	"os"
 	"os/exec"

@@ -1,9 +1,9 @@
 package oauth
 
 import (
+	"github.com/devemmm/codes/internal/web/context"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/providers/openidConnect"
-	"github.com/thomiceli/opengist/internal/web/context"
 	"golang.org/x/oauth2"
 )
 
@@ -24,7 +24,9 @@ func enablePKCE(ctx *context.Context, providerName string) error {
 
 	sess := ctx.GetSession()
 	sess.Values[codeVerifierSessionKey] = verifier
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return err
+	}
 
 	oidcProvider.SetAuthCodeOptions(map[string]string{
 		"code_challenge":        oauth2.S256ChallengeFromVerifier(verifier),
@@ -34,11 +36,11 @@ func enablePKCE(ctx *context.Context, providerName string) error {
 	return nil
 }
 
-func injectCodeVerifier(ctx *context.Context) {
+func injectCodeVerifier(ctx *context.Context) error {
 	sess := ctx.GetSession()
 	verifier, ok := sess.Values[codeVerifierSessionKey].(string)
 	if !ok || verifier == "" {
-		return
+		return nil
 	}
 
 	req := ctx.Request()
@@ -47,5 +49,8 @@ func injectCodeVerifier(ctx *context.Context) {
 	req.URL.RawQuery = q.Encode()
 
 	delete(sess.Values, codeVerifierSessionKey)
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return err
+	}
+	return nil
 }

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/web/handlers/api/v1/types"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/web/handlers/api/v1/types"
 )
 
 // ToSimpleAPI returns the public simple-user shape used inside gist responses

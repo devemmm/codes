@@ -9,30 +9,30 @@ import (
 	"syscall"
 
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/actions"
-	"github.com/thomiceli/opengist/internal/auth/webauthn"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/git"
-	"github.com/thomiceli/opengist/internal/index"
-	"github.com/thomiceli/opengist/internal/ssh"
-	"github.com/thomiceli/opengist/internal/web/handlers/metrics"
-	"github.com/thomiceli/opengist/internal/web/server"
+	"github.com/devemmm/codes/internal/actions"
+	"github.com/devemmm/codes/internal/auth/webauthn"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/git"
+	"github.com/devemmm/codes/internal/index"
+	"github.com/devemmm/codes/internal/ssh"
+	"github.com/devemmm/codes/internal/web/handlers/metrics"
+	"github.com/devemmm/codes/internal/web/server"
 	"github.com/urfave/cli/v2"
 )
 
 var CmdVersion = cli.Command{
 	Name:  "version",
-	Usage: "Print the version of Opengist",
+	Usage: "Print the version of Codes",
 	Action: func(c *cli.Context) error {
-		fmt.Println("Opengist " + config.OpengistVersion)
+		fmt.Println( "Codes " + config.OpengistVersion)
 		return nil
 	},
 }
 
 var CmdStart = cli.Command{
 	Name:  "start",
-	Usage: "Start Opengist server",
+	Usage: "Start Codes server",
 	Action: func(ctx *cli.Context) error {
 		stopCtx, stop := signal.NotifyContext(ctx.Context, syscall.SIGINT, syscall.SIGTERM)
 		defer stop()
@@ -65,9 +65,9 @@ var ConfigFlag = cli.StringFlag{
 
 func App() error {
 	app := cli.NewApp()
-	app.Name = "Opengist"
+	app.Name = "Codes"
 	app.Usage = "A self-hosted pastebin powered by Git."
-	app.HelpName = "opengist"
+	app.HelpName = "codes"
 
 	app.Commands = []*cli.Command{&CmdVersion, &CmdStart, &CmdHook, &CmdAdmin, &CmdKeys, &CmdShell}
 	app.DefaultCommand = CmdStart.Name
@@ -78,7 +78,7 @@ func App() error {
 }
 
 func Initialize(ctx *cli.Context) {
-	fmt.Println("Opengist " + config.OpengistVersion)
+	fmt.Println( "Codes " + config.OpengistVersion)
 
 	if err := config.InitConfig(ctx.String("config"), os.Stdout); err != nil {
 		panic(err)
@@ -99,7 +99,7 @@ func Initialize(ctx *cli.Context) {
 	if ok, err := config.CheckGitVersion(gitVersion); err != nil {
 		log.Warn().Err(err).Msg("Could not determine the git version; some features may not work as expected")
 	} else if !ok {
-		log.Warn().Msg("Git version may be too old, as Opengist has not been tested prior git version 2.28 and some features would not work. " +
+		log.Warn().Msg("Git version may be too old, as Codes has not been tested prior git version 2.28 and some features would not work. " +
 			"Current git version: " + gitVersion)
 	}
 

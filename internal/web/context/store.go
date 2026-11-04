@@ -6,10 +6,10 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/session"
 	"github.com/gorilla/sessions"
 	"github.com/markbates/goth/gothic"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/session"
 )
 
 var gothicStoreOnce sync.Once
@@ -18,23 +18,48 @@ type Store struct {
 	sessionsPath string
 
 	flashStore *sessions.CookieStore
-	UserStore  *sessions.FilesystemStore
+	UserStore  sessions.Store
+	fileStore  sessions.Store
 }
 
-func NewStore(sessionsPath string) *Store {
+func NewStore(sessionsPath string) (*Store, error) {
 	s := &Store{sessionsPath: sessionsPath}
+	if err := session.EnsurePrivateDirectory(sessionsPath); err != nil {
+		return nil, err
+	}
 
-	s.flashStore = sessions.NewCookieStore([]byte("opengist"))
+	flashKey, err := session.LoadOrCreateSecretKey(filepath.Join(sessionsPath, "flash-signing.key"))
+	if err != nil {
+		return nil, err
+	}
+	s.flashStore = sessions.NewCookieStore(flashKey)
 	hardenCookie(s.flashStore.Options)
-	encryptKey, _ := session.GenerateSecretKey(filepath.Join(s.sessionsPath, "session-encrypt.key"))
-	s.UserStore = sessions.NewFilesystemStore(s.sessionsPath, config.SecretKey, encryptKey)
-	s.UserStore.MaxLength(10 * 1024)
-	hardenCookie(s.UserStore.Options)
+	encryptKey, err := session.LoadOrCreateSecretKey(filepath.Join(s.sessionsPath, "session-encrypt.key"))
+	if err != nil {
+		return nil, err
+	}
+	userStore := sessions.NewFilesystemStore(s.sessionsPath, config.SecretKey, encryptKey)
+	userStore.MaxLength(10 * 1024)
+	hardenCookie(userStore.Options)
+	s.fileStore = userStore
+	s.UserStore = &guardedSessionStore{sessionsPath: sessionsPath, inner: userStore}
 	gothicStoreOnce.Do(func() {
 		gothic.Store = s.UserStore
 	})
 
-	return s
+	return s, nil
+}
+
+// NewStoreWithSessionStore builds the standard cookie/session configuration
+// around a caller-provided session backend.
+func NewStoreWithSessionStore(sessionsPath string, userStore sessions.Store) (*Store, error) {
+	s, err := NewStore(sessionsPath)
+	if err != nil {
+		return nil, err
+	}
+	s.UserStore = userStore
+	s.fileStore = nil
+	return s, nil
 }
 
 // hardenCookie applies secure defaults to a session cookie. HttpOnly keeps the

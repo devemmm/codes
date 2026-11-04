@@ -3,8 +3,8 @@ package v1
 import (
 	"time"
 
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/web/context"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/web/context"
 )
 
 // ListLikedGists handles GET /api/gists/liked.

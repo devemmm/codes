@@ -3,13 +3,13 @@ package cli
 import (
 	"os"
 
-	"github.com/thomiceli/opengist/internal/hooks"
+	"github.com/devemmm/codes/internal/hooks"
 	"github.com/urfave/cli/v2"
 )
 
 var CmdHook = cli.Command{
 	Name:   "hook",
-	Usage:  "Run Git server hooks, used and should only be called by Opengist itself",
+	Usage:  "Run Git server hooks, used and should only be called by Codes itself",
 	Hidden: true,
 	Subcommands: []*cli.Command{
 		&CmdHookPreReceive,

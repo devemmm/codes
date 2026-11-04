@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/thomiceli/opengist/internal/db"
-	webtest "github.com/thomiceli/opengist/internal/web/test"
+	"github.com/devemmm/codes/internal/db"
+	webtest "github.com/devemmm/codes/internal/web/test"
 )
 
 func TestMetrics(t *testing.T) {

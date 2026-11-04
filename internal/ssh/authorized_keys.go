@@ -9,8 +9,8 @@ import (
 	"sync"
 
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
 )
 
 // authorizedKeysOptions are the SSH restrictions applied to every Opengist key

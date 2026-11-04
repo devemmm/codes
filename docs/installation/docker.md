@@ -1,28 +1,34 @@
 # Install with Docker
 
-Docker [images](https://github.com/thomiceli/opengist/pkgs/container/opengist) are available for each release :
+Codes Docker images are published to the [GitHub Container Registry](https://github.com/devemmm/codes/pkgs/container/codes).
+
+When replacing an existing OpenGist container, keep mounting its current host
+data directory to `/opengist`. The container path and `OG_OPENGIST_HOME`
+environment variable remain stable for compatibility. Use `$HOME/.codes` for a
+new installation if you want Codes-branded host paths.
 
 ```shell
-docker pull ghcr.io/thomiceli/opengist:1
+docker pull ghcr.io/devemmm/codes:latest
 ```
 
 It can be used in a `docker-compose.yml` file :
 
 1. Create a `docker-compose.yml` file with the following content
 2. Run `docker compose up -d`
-3. Opengist is now running on port 6157, you can browse http://localhost:6157
+3. Codes is now running on port 6157, browse http://localhost:6157
 
 ```yml
 services:
-  opengist:
-    image: ghcr.io/thomiceli/opengist:1
-    container_name: opengist
+  codes:
+    image: ghcr.io/devemmm/codes:latest
+    container_name: codes
     restart: unless-stopped
     ports:
       - "6157:6157" # HTTP port
       - "2222:2222" # SSH port, can be removed if you don't use SSH
     volumes:
-      - "$HOME/.opengist:/opengist"
+      # Keep /opengist as the container data path for compatibility.
+      - "$HOME/.codes:/opengist"
     environment:
       # OG_LOG_LEVEL: info
       # other configuration options
@@ -33,7 +39,7 @@ variables :
 
 ```yml
 services:
-  opengist:
+  codes:
     # ...
     environment:
       UID: 1001
@@ -51,16 +57,16 @@ Docker/Podman — set the `user` key instead:
 
 ```yml
 services:
-  opengist:
+  codes:
     # ...
     user: "1001:1001"
     volumes:
-      - "./opengist-data:/opengist"
+      - "./codes-data:/opengist"
 ```
 
-In this mode the entrypoint runs Opengist directly as that user. 
-Create the Opengist data directory and own it on the host first:
+In this mode the entrypoint runs Codes directly as that user.
+Create the Codes data directory and own it on the host first:
 ```shell
-mkdir -p ./opengist-data && sudo chown -R 1001:1001 ./opengist-data
+mkdir -p ./codes-data && sudo chown -R 1001:1001 ./codes-data
 ```
 

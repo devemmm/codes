@@ -16,7 +16,7 @@ import (
 	"github.com/blevesearch/bleve/v2/analysis/tokenizer/unicode"
 	"github.com/blevesearch/bleve/v2/search/query"
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/config"
+	"github.com/devemmm/codes/internal/config"
 )
 
 type BleveIndexer struct {

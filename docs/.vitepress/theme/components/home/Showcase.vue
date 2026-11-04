@@ -18,13 +18,13 @@ const { isDark } = useData()
         v-show="!isDark"
         class="og-showcase__img"
         :src="withBase('/opengist-demo.png')"
-        alt="Opengist web interface"
+        alt="Codes web interface"
       />
       <img
         v-show="isDark"
         class="og-showcase__img"
         :src="withBase('/opengist-demo-dark.png')"
-        alt="Opengist web interface"
+        alt="Codes web interface"
       />
     </div>
   </section>

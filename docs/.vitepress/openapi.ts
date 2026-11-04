@@ -296,13 +296,13 @@ export async function buildApiData(): Promise<ApiData> {
         return null
       default:
         if (schema.format === 'date-time') return '2024-01-01T00:00:00Z'
-        if (schema.format === 'uri') return 'https://opengist.example/...'
+        if (schema.format === 'uri') return 'https://codes.example/...'
         if (schema.format === 'binary') return '<binary data>'
         return 'string'
     }
   }
 
-  const HOST = 'https://opengist.example.com'
+  const HOST = 'https://codes.example.com'
   const base = spec.servers?.[0]?.url ?? ''
   const fence = (lang: string, code: string) => md.renderAsync(`\`\`\`${lang}\n${code}\n\`\`\``)
 

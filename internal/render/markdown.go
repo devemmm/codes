@@ -5,8 +5,8 @@ import (
 	"regexp"
 
 	"github.com/alecthomas/chroma/v2/formatters/html"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/git"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/git"
 	"github.com/yuin/goldmark"
 	emoji "github.com/yuin/goldmark-emoji"
 	highlighting "github.com/yuin/goldmark-highlighting/v2"

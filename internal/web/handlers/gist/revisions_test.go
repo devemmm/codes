@@ -5,9 +5,9 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/git"
-	webtest "github.com/thomiceli/opengist/internal/web/test"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/git"
+	webtest "github.com/devemmm/codes/internal/web/test"
 )
 
 func TestRevisions(t *testing.T) {

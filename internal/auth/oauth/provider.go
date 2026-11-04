@@ -7,11 +7,11 @@ import (
 	"net/url"
 	"strings"
 
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/web/context"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/web/context"
 )
 
 const (
@@ -23,7 +23,7 @@ const (
 
 type Provider interface {
 	RegisterProvider() error
-	BeginAuthHandler(ctx *context.Context)
+	BeginAuthHandler(ctx *context.Context) error
 	UserHasProvider(user *db.User) bool
 }
 
@@ -52,7 +52,9 @@ func DefineProvider(provider string, url string) (Provider, error) {
 }
 
 func CompleteUserAuth(ctx *context.Context) (CallbackProvider, error) {
-	injectCodeVerifier(ctx)
+	if err := injectCodeVerifier(ctx); err != nil {
+		return nil, err
+	}
 
 	user, err := gothic.CompleteUserAuth(ctx.Response(), ctx.Request())
 	if err != nil {

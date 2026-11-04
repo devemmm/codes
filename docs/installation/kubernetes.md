@@ -1,15 +1,15 @@
-# Install on Kubernetes
+# Kubernetes Installation
 
-A [Helm](https://helm.sh) chart is available to install Opengist on a Kubernetes cluster.
-Check the [Helm documentation](https://helm.sh/docs/) for more information on how to use Helm.
+A [Helm](https://helm.sh) chart is available to install Codes on a Kubernetes cluster.
 
-A non-customized installation of Opengist can be done with:
+Add the Codes Helm repository:
 
 ```bash
-helm repo add opengist https://helm.opengist.io
- 
-helm install opengist opengist/opengist
+helm repo add codes https://codes.devemm.rw
+helm repo update
+helm install opengist codes/codes
 ```
 
-Refer to the [Opengist chart](https://github.com/thomiceli/opengist/tree/master/helm/opengist) for more information 
-about the chart and to customize your installation.
+The chart retains the historical `opengist` release and Kubernetes resource
+names for in-place upgrades and persistent volume compatibility. When upgrading
+an existing installation, keep its current Helm release name.

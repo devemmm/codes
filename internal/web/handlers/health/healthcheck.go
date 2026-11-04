@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/web/context"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/web/context"
 )
 
 // Healthcheck reports service health. A GET request returns the status as JSON;

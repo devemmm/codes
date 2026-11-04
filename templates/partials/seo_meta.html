@@ -4,7 +4,7 @@
      like gist.github.com does. */}}
 {{ define "seo_meta" }}
 {{ if .gist }}
-    {{ $siteName := "Opengist" }}{{ if $.c.CustomName }}{{ $siteName = $.c.CustomName }}{{ end }}
+    {{ $siteName := "Codes" }}{{ if $.c.CustomName }}{{ $siteName = $.c.CustomName }}{{ end }}
     {{ $description := "" }}{{ if .gist.Description }}{{ $description = .gist.Description }}{{ else }}{{ $description = .gist.Preview }}{{ end }}
     {{ $ogDescription := ogText $description 200 }}
     {{ $ogTitle := ogText (printf "%s/%s" .gist.User.Username .gist.Title) 100 }}

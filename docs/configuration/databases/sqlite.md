@@ -1,6 +1,6 @@
 # Using SQLite
 
-By default, Opengist uses SQLite as the database backend.
+Codes uses SQLite as its default database backend.
 
 Because SQLite is a file-based database, there is not much configuration to tweak.
 
@@ -30,7 +30,7 @@ OG_SQLITE_JOURNAL_MODE=WAL
 ```yml
 services:
   opengist:
-    image: ghcr.io/thomiceli/opengist:1
+    image: ghcr.io/devemmm/codes:latest
     container_name: opengist
     restart: unless-stopped
     ports:

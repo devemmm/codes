@@ -15,8 +15,8 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm/logger"
 
+	"github.com/devemmm/codes/internal/config"
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/config"
 	"gorm.io/gorm"
 )
 
@@ -175,13 +175,30 @@ func Setup(dbUri string) error {
 	}
 
 	// Default admin setting values
-	return initAdminSettings(map[string]string{
-		SettingDisableSignup:          "0",
+	if err = initAdminSettings(map[string]string{
+		SettingDisableSignup:          "1",
 		SettingRequireLogin:           "0",
 		SettingAllowGistsWithoutLogin: "0",
 		SettingDisableLoginForm:       "0",
 		SettingDisableGravatar:        "0",
-	})
+	}); err != nil {
+		return err
+	}
+
+	return DisableSignupForEmptyDatabase()
+}
+
+// DisableSignupForEmptyDatabase closes the web-registration bootstrap path on
+// empty databases while leaving signup policy unchanged once users exist.
+func DisableSignupForEmptyDatabase() error {
+	hasUsers, err := HasUsers()
+	if err != nil {
+		return err
+	}
+	if !hasUsers {
+		return UpdateSetting(SettingDisableSignup, "1")
+	}
+	return nil
 }
 
 func Close() error {

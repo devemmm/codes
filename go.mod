@@ -1,4 +1,4 @@
-module github.com/thomiceli/opengist
+module github.com/devemmm/codes
 
 go 1.27.2
 

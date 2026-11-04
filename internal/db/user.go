@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/git"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/git"
 	"gorm.io/gorm"
 )
 
@@ -110,6 +110,13 @@ func (user *User) BeforeDelete(tx *gorm.DB) error {
 func UserExists(username string) (bool, error) {
 	var count int64
 	err := db.Model(&User{}).Where("username_normalized = ?", strings.ToLower(username)).Count(&count).Error
+	return count > 0, err
+}
+
+// HasUsers reports whether the database contains any user accounts.
+func HasUsers() (bool, error) {
+	var count int64
+	err := db.Model(&User{}).Count(&count).Error
 	return count > 0, err
 }
 

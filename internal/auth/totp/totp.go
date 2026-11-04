@@ -24,7 +24,7 @@ func GenerateQRCode(username, siteUrl string, secret []byte) (string, template.U
 
 	otpKey, err := totp.Generate(totp.GenerateOpts{
 		SecretSize:  secretSize,
-		Issuer:      "Opengist (" + strings.ReplaceAll(siteUrl, ":", "") + ")",
+		Issuer: "Codes (" + strings.ReplaceAll(siteUrl, ":", "") + ")",
 		AccountName: username,
 		Secret:      secret,
 	})

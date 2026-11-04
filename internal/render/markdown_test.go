@@ -5,8 +5,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/git"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/git"
 	"golang.org/x/net/html"
 )
 

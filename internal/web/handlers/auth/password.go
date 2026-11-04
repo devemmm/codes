@@ -3,29 +3,38 @@ package auth
 import (
 	"errors"
 
+	"github.com/devemmm/codes/internal/auth"
+	passwordpkg "github.com/devemmm/codes/internal/auth/password"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/i18n"
+	"github.com/devemmm/codes/internal/validator"
+	"github.com/devemmm/codes/internal/web/context"
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/auth"
-	passwordpkg "github.com/thomiceli/opengist/internal/auth/password"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/i18n"
-	"github.com/thomiceli/opengist/internal/validator"
-	"github.com/thomiceli/opengist/internal/web/context"
 	"gorm.io/gorm"
 )
 
 func Register(ctx *context.Context) error {
-	disableSignup := ctx.GetData("DisableSignup")
+	disableSignup := ctx.GetData("DisableSignup") == true
 	disableForm := ctx.GetData("DisableLoginForm")
+	hasUsers, err := db.HasUsers()
+	if err != nil {
+		return ctx.ErrorRes(500, "Cannot check for existing users", err)
+	}
+	if !hasUsers {
+		disableSignup = true
+	}
 
 	code := ctx.QueryParam("code")
-	if code != "" {
+	if hasUsers && code != "" {
 		if invitation, err := db.GetInvitationByCode(code); err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 			return ctx.ErrorRes(500, "Cannot check for invitation code", err)
 		} else if invitation != nil && invitation.IsUsable() {
 			disableSignup = false
 			sess := ctx.GetSession()
 			sess.Values[oauthInvitationSessionKey] = invitation.ID
-			ctx.SaveSession(sess)
+			if err := ctx.SaveSession(sess); err != nil {
+				return ctx.SaveSessionError("Cannot save invitation session", err)
+			}
 		}
 	}
 
@@ -38,7 +47,15 @@ func Register(ctx *context.Context) error {
 }
 
 func ProcessRegister(ctx *context.Context) error {
-	disableSignup := ctx.GetData("DisableSignup")
+	hasUsers, err := db.HasUsers()
+	if err != nil {
+		return ctx.ErrorRes(500, "Cannot check for existing users", err)
+	}
+	if !hasUsers {
+		return ctx.ErrorRes(403, ctx.Tr("error.signup-disabled"), nil)
+	}
+
+	disableSignup := ctx.GetData("DisableSignup") == true
 
 	code := ctx.QueryParam("code")
 	invitation, err := db.GetInvitationByCode(code)
@@ -88,12 +105,6 @@ func ProcessRegister(ctx *context.Context) error {
 		return ctx.ErrorRes(500, "Cannot create user", err)
 	}
 
-	if user.ID == 1 {
-		if err = user.SetAdmin(); err != nil {
-			return ctx.ErrorRes(500, "Cannot set user admin", err)
-		}
-	}
-
 	if invitation.ID != 0 {
 		if err := invitation.Use(); err != nil {
 			return ctx.ErrorRes(500, "Cannot use invitation", err)
@@ -101,7 +112,9 @@ func ProcessRegister(ctx *context.Context) error {
 	}
 
 	sess.Values["user"] = user.ID
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return ctx.SaveSessionError("Cannot save registration session", err)
+	}
 
 	return ctx.RedirectTo("/")
 }
@@ -147,20 +160,26 @@ func ProcessLogin(ctx *context.Context) error {
 	if hasWebauthn || hasTotp {
 		sess.Values["mfaID"] = user.ID
 		sess.Options.MaxAge = 5 * 60 // 5 minutes
-		ctx.SaveSession(sess)
+		if err := ctx.SaveSession(sess); err != nil {
+			return ctx.SaveSessionError("Cannot save MFA session", err)
+		}
 		return ctx.RedirectTo("/mfa")
 	}
 
 	sess.Values["user"] = user.ID
 	sess.Options.MaxAge = 60 * 60 * 24 * 365 // 1 year
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return ctx.SaveSessionError("Cannot save login session", err)
+	}
 	ctx.DeleteCsrfCookie()
 
 	return ctx.RedirectTo("/")
 }
 
 func Logout(ctx *context.Context) error {
-	ctx.DeleteSession()
+	if err := ctx.DeleteSession(); err != nil {
+		return ctx.SaveSessionError("Cannot delete login session", err)
+	}
 	ctx.DeleteCsrfCookie()
 	return ctx.RedirectTo("/-/all")
 }

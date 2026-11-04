@@ -8,8 +8,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
-	"github.com/thomiceli/opengist/internal/auth/password"
-	"github.com/thomiceli/opengist/internal/db"
+	"github.com/devemmm/codes/internal/auth/password"
+	"github.com/devemmm/codes/internal/db"
 	"github.com/urfave/cli/v2"
 )
 

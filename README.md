@@ -1,114 +1,178 @@
-# Opengist
+# Codes
 
-<img height="108px" src="https://raw.githubusercontent.com/thomiceli/opengist/master/public/img/opengist.svg" alt="Opengist" align="right" />
+<img height="108px" src="https://raw.githubusercontent.com/devemmm/codes/codes/public/img/codes.png" alt="Codes" align="right" />
 
-Opengist is a **self-hosted** Pastebin **powered by Git**. All snippets are stored in a Git repository and can be
-read and/or modified using standard Git commands, or with the web interface.
-It is similar to [GitHub Gist](https://gist.github.com/), but open-source and could be self-hosted.
-
-[Home Page](https://opengist.io) • [Documentation](https://opengist.io/docs) • [Discord](https://discord.gg/9Pm3X5scZT) • [Demo](https://demo.opengist.io)
-
-
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/thomiceli/opengist?sort=semver)
-![License](https://img.shields.io/github/license/thomiceli/opengist?color=blue)
-[![Go CI](https://github.com/thomiceli/opengist/actions/workflows/go.yml/badge.svg)](https://github.com/thomiceli/opengist/actions/workflows/go.yml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/thomiceli/opengist)](https://goreportcard.com/report/github.com/thomiceli/opengist)
-[![Translate](https://tr.opengist.io/widget/_/svg-badge.svg)](https://tr.opengist.io/projects/_/opengist/)
+**Codes** is a self-hosted Pastebin powered by Git. All snippets are stored in Git repositories, making them easy to manage, share, version, and access.
 
 ## Features
 
-* Create public, unlisted or private snippets
-* [Init](/docs/usage/init-via-git.md) / Clone / Pull / Push snippets **via Git** over HTTP or SSH
-* Syntax highlighting ; markdown & CSV support
-* Search code in snippets; browse users snippets, likes and forks
-* Add topics to snippets
-* Embed snippets in other websites
-* Revisions history
-* Like / Fork snippets
-* Download raw files or as a ZIP archive
-* OAuth2 login with GitHub, GitLab, Gitea, and OpenID Connect
-* Restrict or unrestrict snippets visibility to anonymous users
-* Docker support / Helm Chart
-* [More...](/docs/introduction.md#features)
+- Create and share code snippets.
+- Git-powered storage and version history.
+- Public and private snippets.
+- Syntax highlighting for multiple programming languages.
+- Markdown rendering.
+- User authentication and access management.
+- SSH and HTTP Git access.
+- Self-hosted deployment and data ownership.
 
-## Quick start
+## Links
 
-### With Docker
+- [Home Page](https://codes.devemm.rw)
+- [Documentation](https://codes.devemm.rw/docs)
+- [Source Code](https://github.com/devemmm/codes)
+- [Releases](https://github.com/devemmm/codes/releases)
+- [Docker Images](https://github.com/devemmm/codes/pkgs/container/codes)
 
-Docker [images](https://github.com/thomiceli/opengist/pkgs/container/opengist) are available for each release :
+## Installation
 
-```shell
-docker pull ghcr.io/thomiceli/opengist:1.15.3
+### Docker
+
+Pull the latest Codes image:
+
+```bash
+docker pull ghcr.io/devemmm/codes:latest
 ```
 
-It can be used in a `docker-compose.yml` file :
+Run Codes:
 
-1. Create a `docker-compose.yml` file with the following content
-2. Run `docker compose up -d`
-3. Opengist is now running on port 6157, you can browse http://localhost:6157
+```bash
+docker run -d \
+  --name codes \
+  -p 6157:6157 \
+  -p 2222:2222 \
+  -v "$HOME/.codes:/opengist" \
+  ghcr.io/devemmm/codes:latest
+```
 
-```yml
+Codes will be available at:
+
+```text
+http://localhost:6157
+```
+
+For an existing OpenGist deployment, keep mounting its current host data
+directory to `/opengist`. Codes retains that container path and the historical
+configuration names so existing data and configuration continue to work.
+
+### Docker Compose
+
+Create a `docker-compose.yml` file:
+
+```yaml
 services:
-  opengist:
-    image: ghcr.io/thomiceli/opengist:1.15.3
-    container_name: opengist
+  codes:
+    image: ghcr.io/devemmm/codes:latest
+    container_name: codes
     restart: unless-stopped
     ports:
-      - "6157:6157" # HTTP port
-      - "2222:2222" # SSH port, can be removed if you don't use SSH
+      - "6157:6157"
+      - "2222:2222"
     volumes:
-      - "$HOME/.opengist:/opengist"
+      - "${HOME}/.codes:/opengist"
 ```
 
-You can define which user/group should run the container and own the files by setting the `UID` and `GID` environment variables :
+Start the application:
 
-```yml
-services:
-  opengist:
-    # ...
-    environment:
-      UID: 1001
-      GID: 1001
+```bash
+docker compose up -d
 ```
 
-### Via binary
+### Binary Installation
 
-Download the archive for your system from the release page [here](https://github.com/thomiceli/opengist/releases/latest), and extract it.
+Download the appropriate binary for your operating system and architecture from the [Codes Releases](https://github.com/devemmm/codes/releases) page.
 
-```shell
-# example for linux amd64
-wget https://github.com/thomiceli/opengist/releases/download/v1.15.3/opengist1.15.3-linux-amd64.tar.gz
+Extract the archive, make the binary executable, and run it:
 
-tar xzvf opengist1.15.3-linux-amd64.tar.gz
-cd opengist
-chmod +x opengist
-./opengist # with or without `--config config.yml`
+```bash
+chmod +x codes
+./codes
 ```
 
-Opengist is now running on port 6157, you can browse http://localhost:6157
+## Development
 
-### From source
+### Requirements
 
-Requirements: [Git](https://git-scm.com/downloads) (2.28+), [Go](https://go.dev/doc/install) (1.23+), [Node.js](https://nodejs.org/en/download/) (16+), [Make](https://linux.die.net/man/1/make) (optional, but easier)
+- Go
+- Node.js and npm
+- Git
 
-```shell
-git clone https://github.com/thomiceli/opengist
-cd opengist
-make
-./opengist
+Clone the repository:
+
+```bash
+git clone https://github.com/devemmm/codes.git
+cd codes
 ```
 
-Opengist is now running on port 6157, you can browse http://localhost:6157
+Install frontend dependencies:
 
----
+```bash
+npm ci
+```
 
-To create and run a development environment, see [run-development.md](/docs/contributing/development.md).
+Build frontend assets:
 
-## Documentation
+```bash
+npm run build
+```
 
-The documentation is available at [https://opengist.io/](https://opengist.io/) or in the [/docs](/docs) directory.
+Run the application:
 
+```bash
+go run .
+```
+
+Run tests:
+
+```bash
+go test ./...
+```
+
+## Docker Image
+
+Codes Docker images are published through GitHub Container Registry:
+
+```text
+ghcr.io/devemmm/codes
+```
+
+Available release tags include:
+
+- `latest`
+- Major version
+- Major and minor version
+- Full version
+
+## Kubernetes Deployment
+
+Codes provides a Helm chart for Kubernetes deployments.
+
+Add the Codes Helm repository:
+
+```bash
+helm repo add codes https://codes.devemm.rw
+helm repo update
+```
+
+Install Codes:
+
+```bash
+helm install opengist codes/codes
+```
+
+The chart retains the historical `opengist` release and Kubernetes resource names
+to support in-place upgrades and preserve existing persistent volume claims. Use
+the same release name as your existing installation when upgrading.
+
+The Helm chart supports configurable persistence, PostgreSQL, Meilisearch, ingress, metrics, and other deployment settings.
+
+See the [Helm chart documentation](https://github.com/devemmm/codes/tree/codes/helm/codes) for configuration details.
+
+## Configuration
+
+Codes supports configuration through its configuration file and environment variables.
+
+Refer to the [configuration documentation](https://codes.devemm.rw/docs/configuration/configure) and the example configuration included in this repository before deploying to production.
 
 ## License
 
-Opengist is licensed under the [AGPL-3.0 license](/LICENSE).
+Codes is distributed under the [GNU Affero General Public License v3.0 (AGPL-3.0)](LICENSE).

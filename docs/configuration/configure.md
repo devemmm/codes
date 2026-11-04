@@ -1,8 +1,8 @@
 # Configuration
 
-Opengist provides flexible configuration options through either a YAML file and/or environment variables.
+Codes provides flexible configuration options through either a YAML file and/or environment variables.
 You would only need to specify the configuration options you want to change — for any config option left untouched, 
-Opengist will simply apply the default values.
+Codes will simply apply the default values.
 
 The [configuration cheat sheet](cheat-sheet.md) lists all available configuration options.
 
@@ -15,7 +15,7 @@ to your YAML file.
 Usage with Docker Compose :
 ```yml
 services:
-  opengist:
+  codes:
     # ...
     volumes:
     # ...
@@ -24,10 +24,10 @@ services:
 
 Usage via command line :
 ```shell
-./opengist --config /path/to/config.yml
+./codes --config /path/to/config.yml
 ```
 
-You can start by copying and/or modifying the provided [config.yml](https://github.com/thomiceli/opengist/blob/master/config.yml) file.
+You can start by copying and/or modifying the provided [config.yml](https://github.com/devemmm/codes/blob/master/config.yml) file.
 
 
 ## Configuration via Environment Variables
@@ -35,7 +35,7 @@ You can start by copying and/or modifying the provided [config.yml](https://gith
 Usage with Docker Compose :
 ```yml
 services:
-  opengist:
+  codes:
     # ...
     environment:
       OG_LOG_LEVEL: "info"
@@ -44,12 +44,12 @@ services:
 
 Usage via command line :
 ```shell
-OG_LOG_LEVEL=info ./opengist
+OG_LOG_LEVEL=info ./codes
 ```
 
 ### Using Docker Compose secrets
 
-You can use Docker Compose secrets to not expose sensitive information in your compose file, using a `.env` file.
+You can use Docker Compose secrets to keep sensitive information out of your Compose file, using a `.env` file. The entrypoint accepts both `codes_secrets` and the historical `opengist_secrets` secret name.
 
 ```dotenv
 # file secrets.env
@@ -61,12 +61,12 @@ And then use it in your compose file :
 
 ```yml
 services:
-  opengist:
+  codes:
     # ...
     secrets:
-      - opengist_secrets
+      - codes_secrets
 
 secrets:
-  opengist_secrets:
+  codes_secrets:
     file: ./secrets.env
 ```

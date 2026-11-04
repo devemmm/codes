@@ -14,17 +14,17 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/devemmm/codes/internal/auth"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/i18n"
+	"github.com/devemmm/codes/internal/ipc"
+	"github.com/devemmm/codes/internal/web/context"
+	"github.com/devemmm/codes/internal/web/handlers"
 	"github.com/labstack/echo-contrib/echoprometheus"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/auth"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/i18n"
-	"github.com/thomiceli/opengist/internal/ipc"
-	"github.com/thomiceli/opengist/internal/web/context"
-	"github.com/thomiceli/opengist/internal/web/handlers"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	"gorm.io/gorm"
@@ -33,7 +33,10 @@ import (
 func (s *Server) useCustomContext() {
 	s.echo.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			cc := context.NewContext(c, filepath.Join(config.GetHomeDir(), "sessions"))
+			cc, err := context.NewContext(c, filepath.Join(config.GetHomeDir(), "sessions"))
+			if err != nil {
+				return echo.NewHTTPError(http.StatusInternalServerError, "Cannot initialize session storage")
+			}
 			return next(cc)
 		}
 	})
@@ -360,7 +363,9 @@ func sessionInit(next Handler) Handler {
 
 			if user, err = db.GetUserById(sess.Values["user"].(uint)); err != nil {
 				sess.Values["user"] = nil
-				ctx.SaveSession(sess)
+				if saveErr := ctx.SaveSession(sess); saveErr != nil {
+					return ctx.SaveSessionError("Cannot clear invalid login session", saveErr)
+				}
 				ctx.User = nil
 				ctx.SetData("userLogged", nil)
 				return ctx.RedirectTo("/-/all")

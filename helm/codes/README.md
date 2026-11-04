@@ -1,8 +1,8 @@
-# Opengist Helm Chart
+# Codes Helm Chart
 
-![Version: 0.14.0](https://img.shields.io/badge/Version-0.14.0-informational?style=flat-square) ![AppVersion: 1.15.3](https://img.shields.io/badge/AppVersion-1.15.3-informational?style=flat-square)
+![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![AppVersion: 1.0.0](https://img.shields.io/badge/AppVersion-1.0.0-informational?style=flat-square)
 
-Opengist Helm chart for Kubernetes. Check [CHANGELOG.md](CHANGELOG.md) for release notes.
+Codes Helm Chart for Kubernetes. Check [CHANGELOG.md](CHANGELOG.md) for release notes.
 
 * [Install](#install)
 * [Configuration](#configuration)
@@ -14,14 +14,43 @@ Opengist Helm chart for Kubernetes. Check [CHANGELOG.md](CHANGELOG.md) for relea
 ## Install
 
 ```bash
-helm repo add opengist https://helm.opengist.io
- 
-helm install opengist opengist/opengist
+helm repo add codes https://codes.devemm.rw
+helm repo update
+
+# Fresh installation; `opengist` is the retained legacy release name.
+helm install opengist codes/codes
 ```
+
+Codes is the product and chart name. The chart retains `opengist` as its default
+Kubernetes app/resource name for compatibility with the original chart. The
+Helm release name is chosen by the installer and is also part of resource
+selectors. Keep the same release name when upgrading an existing installation.
+
+To upgrade an existing installation released as `opengist`, use that same
+release name and continue supplying the values file used for the installation:
+
+```bash
+helm upgrade opengist codes/codes --namespace <namespace> \
+  --reuse-values -f values.yaml
+```
+
+For an installation with a different release name, substitute that exact name
+in the upgrade command. For example, an installation released as `sample`:
+
+```bash
+helm upgrade sample codes/codes --namespace <namespace> \
+  --reuse-values -f values.yaml
+```
+
+Do not rename the Helm release during an upgrade. Preserve any existing
+`nameOverride` and `fullnameOverride` settings; changing them can rename
+resources, selectors, or persistent volume claims. If those values were not
+previously set, leave them unset so the chart can preserve the original
+release-derived naming behavior.
 
 ## Configuration
 
-This part explains how to configure the Opengist instance using the Helm chart. The `config.yml` file used by Opengist
+This part explains how to configure the Codes instance using the Helm chart. The `config.yml` file used by Codes
 is mounted from a Kubernetes Secret with a key `config.yml` and the values formatted as YAML.
 
 ### Using values
@@ -35,7 +64,7 @@ config:
 ```
 
 This will create a Kubernetes secret named `opengist` mounted to the pod as a file with the YAML content of the secret,
-used by Opengist.
+used by Codes.
 
 ### Using an existing secret
 
@@ -50,11 +79,11 @@ configExistingSecret: <name of the secret>
 
 ## Metrics & Monitoring
 
-Opengist exposes Prometheus metrics on a separate port (default: `6158`). The metrics server runs independently from the main HTTP server for security.
+Codes exposes Prometheus metrics on a separate port (default: `6158`). The metrics server runs independently from the main HTTP server for security.
 
 ### Enabling Metrics
 
-To enable metrics, set `metrics.enabled: true` in your Opengist config:
+To enable metrics, set `metrics.enabled: true` in your Codes config:
 
 ```yaml
 config:
@@ -122,12 +151,12 @@ scrape_configs:
 
 ### Meilisearch Indexer
 
-By default, Opengist uses the `bleve` indexer. **It is NOT available** if there is multiple replicas of the opengist pod (only one pod can open the index at the same time).
+By default, Codes uses the `bleve` indexer. **It is NOT available** if there is multiple replicas of the opengist pod (only one pod can open the index at the same time).
 
 Instead, for multiple replicas setups, you **MUST** use the `meilisearch` indexer.
 
 By setting `meilisearch.enabled: true`, the [Meilisearch chart](https://github.com/meilisearch/meilisearch-kubernetes) will be deployed aswell. 
-You must define the `meilisearch.host` (Kubernetes Service) and `meilisearch.key` (value created by Meilisearch) values to connect to the Meilisearch instance in your Opengist config :
+You must define the `meilisearch.host` (Kubernetes Service) and `meilisearch.key` (value created by Meilisearch) values to connect to the Meilisearch instance in your Codes config :
 
 ```yaml
 index: meilisearch
@@ -142,7 +171,7 @@ If you want to use the `bleve` indexer, you need to set the `replicas` to `1`.
 When using the Helm CLI with `--set`, avoid mixing a scalar `config.index` value with nested `config.index.meili.*` keys. Instead use a nested map and a `type` field which the chart flattens automatically. Example:
 
 ```bash
-helm template opengist ./helm/opengist \
+helm template opengist ./helm/codes \
   --set statefulSet.enabled=true \
   --set replicaCount=2 \
   --set persistence.enabled=true \
@@ -167,18 +196,18 @@ How it works:
 
 * You provide a map under `config.index` with keys `type` and `meili`.
 * The template detects `config.index.type` and rewrites `index: <type>`.
-* Nested `config.index.meili.host` / `api-key` are lifted to flat keys `index.meili.host` and `index.meili.api-key` required by Opengist.
+* Nested `config.index.meili.host` / `api-key` are lifted to flat keys `index.meili.host` and `index.meili.api-key` required by Codes.
 
 If you set `--set config.index=meilisearch` directly and also try to set `--set config.index.meili.host=...`, Helm will first create the nested structure then overwrite it with the scalar, losing the host. Always prefer the `config.index.type` pattern for CLI usage.
 
 ### PostgreSQL Database
 
-By default, Opengist uses the `sqlite` database. If needed, this chart also deploys a PostgreSQL instance.
+By default, Codes uses the `sqlite` database. If needed, this chart also deploys a PostgreSQL instance.
 
 By setting `postgresql.enabled: true`, the [Bitnami PostgreSQL chart](https://github.com/bitnami/charts/tree/main/bitnami/postgresql) will be deployed aswell.
 You must define the `postgresql.host`, `postgresql.port`, `postgresql.database`, `postgresql.username` and `postgresql.password` values to connect to the PostgreSQL instance.
 
-Then define the connection string in your Opengist config:
+Then define the connection string in your Codes config:
 
 ```yaml
 db-uri: postgres://user:password@opengist-postgresql:5432/opengist
@@ -200,7 +229,7 @@ Behavior:
 
 ### Multi-Replica Requirements
 
-Running more than one Opengist replica (Deployment or StatefulSet) requires:
+Running more than one Codes replica (Deployment or StatefulSet) requires:
 
 1. Non-SQLite database (`config.db-uri` must start with `postgres://` or `mysql://`).
 2. Shared RWX storage if using StatefulSet with `replicaCount > 1` (provide `persistence.existingClaim`). The chart now fails fast if you attempt `replicaCount > 1` without an explicit shared claim to prevent silent data divergence across per‑pod PVCs.

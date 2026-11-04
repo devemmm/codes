@@ -6,7 +6,7 @@ import (
 	"sync/atomic"
 
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/config"
+	"github.com/devemmm/codes/internal/config"
 )
 
 var atomicIndexer atomic.Pointer[Indexer]

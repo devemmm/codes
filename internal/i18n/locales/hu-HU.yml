@@ -119,9 +119,9 @@ settings.ssh-key-never-used: Sosem használt
 settings.ssh-key-last-used: "Utoljára használva:"
 settings.change-username: Felhasználónév megváltoztatása
 settings.create-password: Jelszó létrehozása
-settings.create-password-help: Hozz létre egy jelszót, hogy bejelentkezhess az OpenGist-be HTTP-n keresztül
+settings.create-password-help: Hozz létre egy jelszót, hogy bejelentkezhess az Codes-be HTTP-n keresztül
 settings.change-password: Jelszó megváltoztatása
-settings.change-password-help: Változtasd meg a jelszót, amivel bejelentkezel az OpenGist-be HTTP-n keresztül
+settings.change-password-help: Változtasd meg a jelszót, amivel bejelentkezel az Codes-be HTTP-n keresztül
 settings.password-label-title: Jelszó
 
 auth.signup-disabled: Az adminisztrátor kikapcsolta a regisztrációkat

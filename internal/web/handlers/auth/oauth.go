@@ -6,13 +6,13 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/devemmm/codes/internal/auth/oauth"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/i18n"
+	"github.com/devemmm/codes/internal/validator"
+	"github.com/devemmm/codes/internal/web/context"
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/auth/oauth"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/i18n"
-	"github.com/thomiceli/opengist/internal/validator"
-	"github.com/thomiceli/opengist/internal/web/context"
 	"gorm.io/gorm"
 )
 
@@ -20,6 +20,15 @@ const oauthInvitationSessionKey = "oauthInvitation"
 
 // allowed is false after a rejection, even when writing the redirect succeeds.
 func allowOauthSignup(ctx *context.Context) (*db.Invitation, bool, error) {
+	hasUsers, err := db.HasUsers()
+	if err != nil {
+		return nil, false, ctx.ErrorRes(500, "Cannot check for existing users", err)
+	}
+	if !hasUsers {
+		ctx.AddFlash(ctx.Tr("error.signup-disabled"), "error")
+		return nil, false, ctx.Redirect(302, "/-/login")
+	}
+
 	invitationID, ok := ctx.GetSession().Values[oauthInvitationSessionKey].(uint)
 	if ok {
 		invitation, err := db.GetInvitationByID(invitationID)
@@ -77,13 +86,18 @@ func Oauth(ctx *context.Context) error {
 		return ctx.ErrorRes(500, "Cannot create provider", err)
 	}
 
-	provider.BeginAuthHandler(ctx)
+	if err := provider.BeginAuthHandler(ctx); err != nil {
+		return ctx.SaveSessionError("Cannot save OAuth session", err)
+	}
 	return nil
 }
 
 func OauthCallback(ctx *context.Context) error {
 	provider, err := oauth.CompleteUserAuth(ctx)
 	if err != nil {
+		if errors.Is(err, context.ErrSessionConflict) || errors.Is(err, context.ErrSessionExpired) {
+			return ctx.SaveSessionError("Cannot consume OAuth session", err)
+		}
 		ctx.AddFlash(fmt.Sprintf("%s: %s", ctx.Tr("auth.oauth.no-provider"), err.Error()), "error")
 		return ctx.Redirect(302, "/-/login")
 	}
@@ -139,7 +153,9 @@ func OauthCallback(ctx *context.Context) error {
 		sess.Values["oauthIsAdmin"] = provider.IsAdmin()
 
 		sess.Options.MaxAge = 10 * 60 // 10 minutes
-		ctx.SaveSession(sess)
+		if err := ctx.SaveSession(sess); err != nil {
+			return ctx.SaveSessionError("Cannot save OAuth session", err)
+		}
 
 		return ctx.RedirectTo("/oauth/register")
 	}
@@ -154,7 +170,9 @@ func OauthCallback(ctx *context.Context) error {
 
 	sess := ctx.GetSession()
 	sess.Values["user"] = userDB.ID
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return ctx.SaveSessionError("Cannot save OAuth login session", err)
+	}
 	ctx.DeleteCsrfCookie()
 
 	return ctx.RedirectTo("/")
@@ -259,12 +277,6 @@ func ProcessOauthRegister(ctx *context.Context) error {
 		return ctx.ErrorRes(500, "Cannot create user", err)
 	}
 
-	if config.C.OIDCAdminGroup == "" && userDB.ID == 1 {
-		if err := userDB.SetAdmin(); err != nil {
-			return ctx.ErrorRes(500, "Cannot set user admin", err)
-		}
-	}
-
 	if isAdmin, ok := sess.Values["oauthIsAdmin"].(bool); ok && isAdmin {
 		userDB.IsAdmin = true
 		_ = userDB.Update()
@@ -303,7 +315,9 @@ func ProcessOauthRegister(ctx *context.Context) error {
 
 	sess.Values["user"] = userDB.ID
 	sess.Options.MaxAge = 60 * 60 * 24 * 365 // 1 year
-	ctx.SaveSession(sess)
+	if err := ctx.SaveSession(sess); err != nil {
+		return ctx.SaveSessionError("Cannot save OAuth registration session", err)
+	}
 	ctx.DeleteCsrfCookie()
 
 	return ctx.RedirectTo("/")

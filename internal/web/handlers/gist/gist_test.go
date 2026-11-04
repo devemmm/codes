@@ -9,8 +9,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/thomiceli/opengist/internal/db"
-	webtest "github.com/thomiceli/opengist/internal/web/test"
+	"github.com/devemmm/codes/internal/db"
+	webtest "github.com/devemmm/codes/internal/web/test"
 )
 
 func TestGistIndex(t *testing.T) {
@@ -140,7 +140,7 @@ func TestGistSocialMetaTags(t *testing.T) {
 		assert.Contains(t, html, `property="og:description"`)
 		assert.Contains(t, html, `property="og:type" content="article"`)
 		assert.Contains(t, html, `property="og:url"`)
-		assert.Contains(t, html, `property="og:site_name" content="Opengist"`)
+		assert.Contains(t, html, `property="og:site_name" content="Codes"`)
 		assert.Contains(t, html, `property="og:image"`)
 
 		// Twitter Card tags

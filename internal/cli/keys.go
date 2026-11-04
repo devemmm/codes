@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/thomiceli/opengist/internal/ipc"
-	"github.com/thomiceli/opengist/internal/ssh"
+	"github.com/devemmm/codes/internal/ipc"
+	"github.com/devemmm/codes/internal/ssh"
 	"github.com/urfave/cli/v2"
 )
 
@@ -46,7 +46,7 @@ var CmdKeys = cli.Command{
 		resp, err := ipc.LookupSSHKey(pubKey)
 		if err != nil {
 			// Never write to stdout on error: emit no key and report on stderr.
-			fmt.Fprintln(os.Stderr, "opengist keys: failed to look up SSH key: "+err.Error())
+			fmt.Fprintln(os.Stderr, "codes keys: failed to look up SSH key: "+err.Error())
 			return nil
 		}
 		if !resp.Found {
@@ -55,7 +55,7 @@ var CmdKeys = cli.Command{
 
 		exe, err := os.Executable()
 		if err != nil {
-			fmt.Fprintln(os.Stderr, "opengist keys: failed to resolve executable path: "+err.Error())
+			fmt.Fprintln(os.Stderr, "codes keys: failed to resolve executable path: "+err.Error())
 			return nil
 		}
 

@@ -1,21 +1,40 @@
 #!/bin/sh
 
-CHECKSUMS_FILE="build/checksums.txt"
-BINARY_NAME="opengist"
-TARGETS="darwin/amd64 darwin/arm64 linux/amd64 linux/arm64 linux/armv6 linux/armv7 linux/386 windows/amd64"
-VERSION=$(git describe --tags | sed 's/^v//')
-VERSION_PKG="github.com/thomiceli/opengist/internal/config.OpengistVersion"
+set -eu
 
-if [ -z "$VERSION" ]; then
-    echo "Error: Could not retrieve version from git tags. Exiting..."
+CHECKSUMS_FILE="build/checksums.txt"
+BINARY_NAME="codes"
+TARGETS="darwin/amd64 darwin/arm64 linux/amd64 linux/arm64 linux/armv6 linux/armv7 linux/386 windows/amd64"
+VERSION_PKG="github.com/devemmm/codes/internal/config.OpengistVersion"
+
+if [ "${VERSION+x}" = x ]; then
+    DETECTED_VERSION=$VERSION
+elif GIT_VERSION=$(git describe --tags 2>/dev/null); then
+    DETECTED_VERSION=$GIT_VERSION
+else
+    echo "Error: VERSION is not set and could not retrieve version from git tags. Exiting..." >&2
     exit 1
 fi
+
+VERSION=${DETECTED_VERSION#v}
+
+if [ -z "$VERSION" ]; then
+    echo "Error: Version is empty. Exiting..." >&2
+    exit 1
+fi
+
+mkdir -p build
+
+# Start with a clean checksum file to prevent stale or duplicate entries.
+: > "$CHECKSUMS_FILE"
 
 for TARGET in $TARGETS; do
     GOOS=${TARGET%/*}
     GOARCH=${TARGET#*/}
 
-    case $GOOS-$GOARCH in
+    GOARM=""
+
+    case "$GOOS-$GOARCH" in
         linux-armv6)
             GOARCH="arm"
             GOARM=6
@@ -23,9 +42,6 @@ for TARGET in $TARGETS; do
         linux-armv7)
             GOARCH="arm"
             GOARM=7
-            ;;
-        *)
-            unset GOARM
             ;;
     esac
 
@@ -37,29 +53,62 @@ for TARGET in $TARGETS; do
         OUTPUT_FILE="$OUTPUT_FILE.exe"
     fi
 
-    echo "Building version $VERSION for $GOOS/$GOARCH${GOARM:+v$GOARM}..."
-    mkdir -p $OUTPUT_DIR
-    env GOOS=$GOOS GOARCH=$GOARCH GOARM=$GOARM CGO_ENABLED=0 go build -tags fs_embed -ldflags "-X $VERSION_PKG=v$VERSION" -o $OUTPUT_FILE
-    cp README.md $OUTPUT_DIR
-    cp LICENSE $OUTPUT_DIR
-    cp config.yml $OUTPUT_DIR
+    ARCHIVE="build/$BINARY_NAME$VERSION-$GOOS-$GOARCH${GOARM:+v$GOARM}"
 
-    if [ $? -ne 0 ]; then
-        echo "Error building for $GOOS/$GOARCH${GOARM:+v$GOARM}. Exiting..."
+    echo "Building version $VERSION for $GOOS/$GOARCH${GOARM:+v$GOARM}..."
+
+    mkdir -p "$OUTPUT_DIR"
+
+    export GOOS GOARCH
+    export CGO_ENABLED=0
+
+    if [ -n "$GOARM" ]; then
+        export GOARM
+    else
+        unset GOARM
+    fi
+
+    # Stop immediately if compilation fails.
+    go build \
+        -tags fs_embed \
+        -ldflags "-X $VERSION_PKG=v$VERSION" \
+        -o "$OUTPUT_FILE" .
+
+    cp README.md LICENSE config.yml "$OUTPUT_DIR/"
+
+    echo "Archiving for $GOOS/$GOARCH${GOARM:+v$GOARM}..."
+
+    if [ "$GOOS" = "windows" ]; then
+        ARCHIVE="$ARCHIVE.zip"
+
+        (
+            cd "$OUTPUT_PARENT_DIR"
+            zip -qr "../$(basename "$ARCHIVE")" "$BINARY_NAME"
+        )
+    else
+        ARCHIVE="$ARCHIVE.tar.gz"
+
+        tar -czf "$ARCHIVE" \
+            -C "$OUTPUT_PARENT_DIR" \
+            "$BINARY_NAME"
+    fi
+
+    # Generate checksums on both macOS and Linux.
+    if command -v sha256sum >/dev/null 2>&1; then
+        CHECKSUM=$(sha256sum "$ARCHIVE")
+    elif command -v shasum >/dev/null 2>&1; then
+        CHECKSUM=$(shasum -a 256 "$ARCHIVE")
+    else
+        echo "Error: No SHA-256 utility found." >&2
         exit 1
     fi
 
-    # Archive the binary with README and LICENSE
-    echo "Archiving for $GOOS/$GOARCH${GOARM:+v$GOARM}..."
-    if [ "$GOOS" = "windows" ]; then
-        # ZIP for Windows
-        cd $OUTPUT_PARENT_DIR && zip -r "../$BINARY_NAME$VERSION-$GOOS-$GOARCH${GOARM:+v$GOARM}.zip" "$BINARY_NAME/" && cd - > /dev/null
-        sha256sum "build/$BINARY_NAME$VERSION-$GOOS-$GOARCH${GOARM:+v$GOARM}.zip" | awk '{print $1 " " substr($2,7)}' >> $CHECKSUMS_FILE
-    else
-        # tar.gz for other platforms
-        tar -czf "build/$BINARY_NAME$VERSION-$GOOS-$GOARCH${GOARM:+v$GOARM}.tar.gz" -C $OUTPUT_PARENT_DIR "$BINARY_NAME"
-        sha256sum "build/$BINARY_NAME$VERSION-$GOOS-$GOARCH${GOARM:+v$GOARM}.tar.gz" | awk '{print $1 " " substr($2,7)}' >> $CHECKSUMS_FILE
-    fi
+    printf '%s\n' "$CHECKSUM" |
+        awk '{name=$2; sub(/^build\//, "", name); print $1 "  " name}' \
+        >> "$CHECKSUMS_FILE"
+
+    echo "Successfully built: $ARCHIVE"
 done
 
 echo "Build and archiving complete."
+echo "Checksums written to $CHECKSUMS_FILE"

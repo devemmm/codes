@@ -7,13 +7,13 @@ Requirements:
 * [Make](https://linux.die.net/man/1/make) (optional, but easier)
 
 ```shell
-git clone https://github.com/thomiceli/opengist
-cd opengist
+git clone https://github.com/devemmm/codes.git
+cd codes
 
-git checkout v1.15.3
+git checkout codes
 
 make
-./opengist
+./codes
 ```
 
-Opengist is now running on port 6157, you can browse http://localhost:6157
+Codes is now running on port 6157, browse http://localhost:6157

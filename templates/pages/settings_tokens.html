@@ -17,6 +17,16 @@
     </div>
     {{ end }}
 
+    {{ if .newAccessToken }}
+    <section class="alert og-orange" role="alert" aria-live="polite">
+        <div class="w-full space-y-2">
+            <p class="font-medium">{{ .locale.Tr "settings.token-created" }}</p>
+            <p class="text-sm">{{ .locale.Tr "settings.create-token-help" }}</p>
+            <code class="block select-all break-all rounded border bg-background p-3">{{ .newAccessToken }}</code>
+        </div>
+    </section>
+    {{ end }}
+
     <div class="space-y-6">
         <!-- Create token -->
         <section class="bg-card h-fit rounded-lg border">

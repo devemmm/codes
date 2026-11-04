@@ -1,16 +1,18 @@
 #!/bin/sh
 
 load_secrets() {
-    if [ -f "/run/secrets/opengist_secrets" ]; then
-        set -a
-        . /run/secrets/opengist_secrets
-        set +a
-    fi
+    for secret_file in /run/secrets/opengist_secrets /run/secrets/codes_secrets; do
+        if [ -f "$secret_file" ]; then
+            set -a
+            . "$secret_file"
+            set +a
+        fi
+    done
 }
 
 if [ "$(id -u)" -ne 0 ]; then
     load_secrets
-    exec env HOME=/opengist OG_OPENGIST_HOME=/opengist /app/opengist/opengist --config /config.yml
+    exec env HOME=/opengist OG_OPENGIST_HOME=/opengist /app/opengist/codes --config /config.yml
 fi
 
 export USER=opengist
@@ -24,4 +26,4 @@ chown -R "$USER:$USER" /config.yml
 
 load_secrets
 
-exec su $USER -c "OG_OPENGIST_HOME=/opengist /app/opengist/opengist --config /config.yml"
+exec su $USER -c "OG_OPENGIST_HOME=/opengist /app/opengist/codes --config /config.yml"

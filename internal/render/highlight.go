@@ -14,8 +14,8 @@ import (
 	"github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/alecthomas/chroma/v2/lexers"
 	"github.com/alecthomas/chroma/v2/styles"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/git"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/git"
 )
 
 //go:embed lexers/*.xml

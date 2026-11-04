@@ -152,9 +152,9 @@ settings.ssh-key-last-used: آخر استخدام
 settings.ssh-key-exists: مفتاح SSH موجود بالفعل
 settings.change-username: تغيير اسم المستخدم
 settings.create-password: إنشاء كلمة مرور
-settings.create-password-help: أنشئ كلمة مرورك لتسجيل الدخول إلى Opengist عبر HTTP
+settings.create-password-help: أنشئ كلمة مرورك لتسجيل الدخول إلى Codes عبر HTTP
 settings.change-password: تغيير كلمة المرور
-settings.change-password-help: غيّر كلمة مرورك لتسجيل الدخول إلى Opengist عبر HTTP
+settings.change-password-help: غيّر كلمة مرورك لتسجيل الدخول إلى Codes عبر HTTP
 settings.password-label-title: كلمة المرور
 settings.header.account: الحساب
 settings.header.mfa: المصادقة متعددة العوامل
@@ -208,7 +208,7 @@ auth.oauth.complete-registration-button: إنشاء حساب
 auth.oauth.signing-in-with: تسجيل الدخول باستخدام %s
 auth.oauth.cancel: الغاء
 auth.oauth.existing-account: لديك حساب موجود؟
-auth.oauth.already-have-account: إذا كان لديك حساب Opengist بالفعل، فسجّل الدخول أولًا ثم اربط حساب %s من الإعدادات.
+auth.oauth.already-have-account: إذا كان لديك حساب Codes بالفعل، فسجّل الدخول أولًا ثم اربط حساب %s من الإعدادات.
 auth.mfa: المصادقة متعددة العوامل
 auth.mfa.passkey: مفتاح مرور
 auth.mfa.passkeys: مفاتيح مرور

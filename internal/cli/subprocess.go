@@ -3,7 +3,7 @@ package cli
 import (
 	"io"
 
-	"github.com/thomiceli/opengist/internal/config"
+	"github.com/devemmm/codes/internal/config"
 	"github.com/urfave/cli/v2"
 )
 

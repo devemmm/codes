@@ -128,9 +128,9 @@ settings.ssh-key-never-used: Hiç kullanılmadı
 settings.ssh-key-last-used: Son kullanma
 settings.change-username: Kullanıcı adını değiştir
 settings.create-password: Parola oluştur
-settings.create-password-help: HTTP üzerinden Opengist'e giriş yapmak için parolanızı oluşturun
+settings.create-password-help: HTTP üzerinden Codes'e giriş yapmak için parolanızı oluşturun
 settings.change-password: Parolayı değiştir
-settings.change-password-help: HTTP üzerinden Opengist'e giriş yapmak için parolanızı değiştirin
+settings.change-password-help: HTTP üzerinden Codes'e giriş yapmak için parolanızı değiştirin
 settings.password-label-title: Parola
 
 auth.signup-disabled: Yönetici kaydolmayı devre dışı bıraktı

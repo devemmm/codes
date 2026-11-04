@@ -3,7 +3,7 @@ package api
 import (
 	_ "embed"
 
-	"github.com/thomiceli/opengist/internal/web/context"
+	"github.com/devemmm/codes/internal/web/context"
 )
 
 //go:embed openapi.yaml

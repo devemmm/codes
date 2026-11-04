@@ -5,13 +5,12 @@ import (
 	"errors"
 	"slices"
 
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/web/context"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
 	"github.com/markbates/goth/providers/openidConnect"
-	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/web/context"
 )
 
 type OIDCProvider struct {
@@ -41,15 +40,16 @@ func (p *OIDCProvider) RegisterProvider() error {
 	return nil
 }
 
-func (p *OIDCProvider) BeginAuthHandler(ctx *context.Context) {
+func (p *OIDCProvider) BeginAuthHandler(ctx *context.Context) error {
 	if err := enablePKCE(ctx, OpenIDConnectString); err != nil {
-		log.Error().Err(err).Msg("Cannot enable PKCE for OIDC provider")
+		return err
 	}
 
 	ctxValue := gocontext.WithValue(ctx.Request().Context(), gothic.ProviderParamKey, OpenIDConnectString)
 	ctx.SetRequest(ctx.Request().WithContext(ctxValue))
 
 	gothic.BeginAuthHandler(ctx.Response(), ctx.Request())
+	return nil
 }
 
 func (p *OIDCProvider) UserHasProvider(user *db.User) bool {

@@ -9,10 +9,10 @@ import (
 	"strings"
 
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/auth/password"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/db"
-	"github.com/thomiceli/opengist/internal/validator"
+	"github.com/devemmm/codes/internal/auth/password"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/db"
+	"github.com/devemmm/codes/internal/validator"
 	"github.com/urfave/cli/v2"
 )
 

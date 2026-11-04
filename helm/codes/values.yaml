@@ -1,9 +1,9 @@
-## Kubernetes workload configuration for Opengist
+## Kubernetes workload configuration for Codes
 nameOverride: ""
 fullnameOverride: ""
 namespace: ""
 
-## Opengist YAML Application Config. See more at https://opengist.io/docs/configuration/cheat-sheet.html
+## Codes YAML Application Config. See more at https://codes.devemm.rw/docs/configuration/cheat-sheet
 ## This will create a Kubernetes secret with the key `config.yml` containing the YAML configuration mounted in the pod.
 config:
   log-level: "warn"
@@ -16,9 +16,9 @@ configExistingSecret: ""
 
 ## Define the image repository and tag to use.
 image:
-  repository: ghcr.io/thomiceli/opengist
+  repository: ghcr.io/devemmm/codes
   pullPolicy: Always
-  tag: "1.15.3"
+  tag: "1.0.0"
   digest: ""
 imagePullSecrets: []
 # - name: "image-pull-secret"
@@ -106,7 +106,7 @@ service:
     loadBalancerSourceRanges: []
     externalTrafficPolicy:
 
-  # A metrics K8S service on port 6158 is created when the Opengist config metrics.enabled: true
+  # A metrics K8S service on port 6158 is created when the Codes config metrics.enabled: true
   metrics:
     type: ClusterIP
     clusterIP:
@@ -126,7 +126,7 @@ service:
       relabelings: []
       metricRelabelings: []
 
-## HTTP Ingress for Opengist
+## HTTP Ingress for Codes
 ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ingress:
   enabled: false
@@ -145,7 +145,7 @@ ingress:
     #   hosts:
     #     - opengist.example.com
 
-## Service Account for Opengist pods
+## Service Account for Codes pods
 ## ref: https://kubernetes.io/docs/concepts/security/service-accounts/
 serviceAccount:
   create: true

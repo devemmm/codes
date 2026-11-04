@@ -111,9 +111,9 @@ settings.ssh-key-never-used: 從未使用
 settings.ssh-key-last-used: 最後使用
 settings.change-username: 變更使用者名稱
 settings.create-password: 創建密碼
-settings.create-password-help: 創建您的密碼以通過 HTTP 登錄到 Opengist
+settings.create-password-help: 創建您的密碼以通過 HTTP 登錄到 Codes
 settings.change-password: 更改密碼
-settings.change-password-help: 更改您的密碼以通過 HTTP 登錄到 Opengist
+settings.change-password-help: 更改您的密碼以通過 HTTP 登錄到 Codes
 settings.password-label-title: 密碼
 
 auth.signup-disabled: 管理員已禁用註冊

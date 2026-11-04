@@ -1,10 +1,10 @@
-# Update Opengist
+# Update Codes
 
 ## Make a backup
 
-Before updating, always make sure to backup the Opengist home directory, where all the data is stored. 
+Before updating, back up the application home directory, where all the data is stored. Existing installations keep their current data directory and configuration names after upgrading.
 
-You can do so by copying the `~/.opengist` directory (default location).
+The default home directory for existing installs is `~/.opengist`; retain that directory unless you deliberately migrate it and update the configuration.
 
 ```shell
 cp -r ~/.opengist ~/.opengist.bak
@@ -14,36 +14,33 @@ cp -r ~/.opengist ~/.opengist.bak
 
 ### With Docker
 
-Pull the last version of Opengist
+Pull the latest Codes image
 ```shell
-docker pull ghcr.io/thomiceli/opengist:1
+docker pull ghcr.io/devemmm/codes:latest
 ```
 
 And restart the container, using `docker compose up -d` for example if you use docker compose.
 
 ### Via binary
 
-Stop the running instance; then like your first installation of Opengist, download the archive for your system from the release page [here](https://github.com/thomiceli/opengist/releases/latest), and extract it.
+Stop the running instance, then download the matching archive from the [Codes Releases](https://github.com/devemmm/codes/releases/latest) page and extract it.
 
 ```shell
-# example for linux amd64
-wget https://github.com/thomiceli/opengist/releases/download/v1.15.3/opengist1.15.3-linux-amd64.tar.gz
-
-tar xzvf opengist1.15.3-linux-amd64.tar.gz
-cd opengist
-chmod +x opengist
-./opengist # with or without `--config config.yml`
+tar xzvf codesVERSION-linux-amd64.tar.gz # Replace VERSION with the release number
+cd codes
+chmod +x codes
+./codes # with or without `--config config.yml`
 ```
 
 ### From source
 
-Stop the running instance; then pull the last changes from the master branch, and build the new version.
+Stop the running instance, then pull the latest changes from the Codes branch and build the new version.
 
 ```shell
-git switch master
+git switch codes
 git pull
 make
-./opengist
+./codes
 ```
 
 ## Restore the backup
@@ -55,4 +52,4 @@ rm -rf ~/.opengist
 cp -r ~/.opengist.bak ~/.opengist
 ```
 
-Then run the old version of Opengist again.
+Then run the previous Codes version again.

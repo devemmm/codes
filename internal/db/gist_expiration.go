@@ -4,7 +4,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/thomiceli/opengist/internal/validator"
+	"github.com/devemmm/codes/internal/validator"
 )
 
 // ExpirationType is the expiration choice a user can pick when creating a

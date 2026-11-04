@@ -1,6 +1,6 @@
 # Custom assets
 
-To add custom assets to your Opengist instance, you can use the `$opengist-home/custom` directory (where `$opengist-home` is the directory where Opengist stores its data).
+To add custom assets to your Codes instance, you can use the `$opengist-home/custom` directory (where `$opengist-home` is the directory where Codes stores its data).
 
 ### Logo / Favicon
 
@@ -32,7 +32,7 @@ export OG_CUSTOM_FAVICON=favicon.png
 
 ### Instance Name
 
-It is also possible to set a name for your instance, that would be displayed in the title bar instead of 'Opengist'.
+It is also possible to set a name for your instance, that would be displayed in the title bar instead of 'Codes'.
 
 #### YAML
 ```yaml

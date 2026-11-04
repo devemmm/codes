@@ -9,12 +9,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/thomiceli/opengist/internal/validator"
+	"github.com/devemmm/codes/internal/validator"
 
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog/log"
-	"github.com/thomiceli/opengist/internal/config"
-	"github.com/thomiceli/opengist/internal/i18n"
+	"github.com/devemmm/codes/internal/config"
+	"github.com/devemmm/codes/internal/i18n"
 )
 
 type Server struct {

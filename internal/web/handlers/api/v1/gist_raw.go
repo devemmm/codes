@@ -3,7 +3,7 @@ package v1
 import (
 	"net/url"
 
-	"github.com/thomiceli/opengist/internal/web/context"
+	"github.com/devemmm/codes/internal/web/context"
 )
 
 // RawFile handles GET /api/gists/:uuid/files/:sha/:filename.
